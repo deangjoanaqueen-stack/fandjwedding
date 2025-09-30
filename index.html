@@ -429,31 +429,31 @@
   </section>
 
   <!-- RSVP -->
-  <section class="section section-light" id="rsvp">
-    <h2>Kindly RSVP</h2>
-    <div class="rsvp-container" style="padding-top:10px; padding-bottom:10px;">
-      <div class="rsvp-card" role="form" aria-labelledby="rsvp-title">
-        <h2 id="rsvp-title">Will you celebrate with us?</h2>
-        <p>Please confirm attendance by <strong>November 8, 2025</strong>.</p>
+<section class="section section-light" id="rsvp">
+  <h2>Kindly RSVP</h2>
+  <div class="rsvp-container" style="padding-top:10px; padding-bottom:10px;">
+    <div class="rsvp-card" role="form" aria-labelledby="rsvp-title">
+      <h2 id="rsvp-title">Will you celebrate with us?</h2>
+      <p>Please confirm attendance by <strong>November 8, 2025</strong>.</p>
 
-        <form id="rsvpForm" onsubmit="event.preventDefault(); handleRSVP();">
-          <input class="rsvp-input" id="rsvpName" type="text" placeholder="Your full name" required />
-          <br />
-          <select class="rsvp-input" id="rsvpAttend" required>
-            <option value="" disabled selected>Will you attend?</option>
-            <option value="yes">Yes — I'll be there</option>
-            <option value="no">Sorry — can't make it</option>
-          </select>
-          <br />
-          <textarea id="rsvpMsg" class="rsvp-input" rows="3" placeholder="A short message (optional)"></textarea>
-          <br />
-          <button class="rsvp-submit" type="submit">Send RSVP</button>
-        </form>
+      <form id="rsvpForm" onsubmit="event.preventDefault(); handleRSVP();">
+        <input class="rsvp-input" id="rsvpName" type="text" placeholder="Your full name" required />
+        <br />
+        <select class="rsvp-input" id="rsvpAttend" required>
+          <option value="" disabled selected hidden>Will you attend?</option>
+          <option value="yes">Yes — I'll be there</option>
+          <option value="no">Sorry — can't make it</option>
+        </select>
+        <br />
+        <textarea id="rsvpMsg" class="rsvp-input" rows="3" placeholder="A short message (optional)"></textarea>
+        <br />
+        <button class="rsvp-submit" type="submit">Send RSVP</button>
+      </form>
 
-        <div id="rsvpThanks" style="display:none; margin-top:12px; color:var(--green-dark)"></div>
-      </div>
+      <div id="rsvpThanks" style="display:none; margin-top:12px; color:var(--green-dark)"></div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- footer -->
   <footer>
