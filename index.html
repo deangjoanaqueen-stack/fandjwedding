@@ -1,292 +1,270 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Fritz & Joana | Wedding Invitation</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
-  <!-- Styles -->
   <style>
-    :root {
-      --green-dark: #1b4332;
-      --green: #2d6a4f;
-      --green-light: #95d5b2;
-      --white: #ffffff;
-      --overlay: rgba(0,0,0,0.55);
-      --gold: #d4af37;
+    :root{
+      --green-dark:#1b4332;
+      --green:#2d6a4f;
+      --green-light:#95d5b2;
+      --white:#fff;
+      --overlay: rgba(0,0,0,0.45);
+      --gold:#d4af37;
+      --petal: rgba(255,255,255,0.95);
     }
 
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
+    /* base */
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
       font-family: 'Montserrat', sans-serif;
-      color: var(--white);
-      background: var(--green-dark);
-      overflow-x: hidden;
-    }
-    h1 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 4rem;
-      margin: 0;
-    }
-    h2, h3 {
-      font-family: 'Cormorant Garamond', serif;
+      color:var(--white);
+      background: linear-gradient(180deg,var(--green-dark) 0%, #173821 100%);
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
-    /* Navigation */
-    .main-nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background: rgba(27, 67, 50, 0.9);
-      padding: 1rem;
-      text-align: center;
-      z-index: 1000;
-      transition: background 0.5s ease, box-shadow 0.5s ease;
+    /* NAV */
+    .main-nav{
+      position:fixed; top:0; left:0; right:0; z-index:1200;
+      background:rgba(11,35,25,0.75);
+      backdrop-filter: blur(6px);
+      padding:.9rem 1rem;
+      display:flex; justify-content:center;
+      transition: all .35s ease;
     }
-    .main-nav.scrolled {
-      background: var(--green);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    .main-nav.scrolled{ background: rgba(27,67,50,0.95); box-shadow:0 6px 24px rgba(0,0,0,0.35) }
+    .main-nav ul{ list-style:none; margin:0; padding:0; display:flex; gap:1.4rem; align-items:center; }
+    .main-nav a{
+      text-decoration:none; color:var(--green-light); font-family:'Cormorant Garamond',serif; font-weight:600;
+      padding:.2rem .35rem; position:relative;
     }
-    .main-nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin: 0;
-      padding: 0;
-    }
-    .main-nav a {
-      text-decoration: none;
-      color: var(--green-light);
-      font-weight: 600;
-      font-family: 'Cormorant Garamond', serif;
-      position: relative;
-      transition: color 0.4s ease;
-    }
-    .main-nav a:hover { color: var(--white); }
+    .main-nav a:hover{ color:var(--white) }
+    .main-nav a.active{ color:var(--white); border-bottom:2px solid var(--gold); padding-bottom:.2rem }
 
     /* Hero */
-    .hero {
-      height: 100vh;
+    .hero{
+      height:100vh; min-height:620px; position:relative; overflow:hidden;
       background: url("8R302075 (6).jpg") center/cover no-repeat;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      color: var(--white);
+      display:flex; align-items:center; justify-content:center; text-align:center;
     }
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: var(--overlay);
-    }
-    .hero-initials {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Great Vibes', cursive;
-      font-size: 12rem;
-      color: var(--gold);
-      opacity: 0;
-      z-index: 0;
-      pointer-events: none;
-      animation: fadeIn 3s ease forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translate(-50%, -50%) scale(0.9);}
-      to { opacity: 0.2; transform: translate(-50%, -50%) scale(1);}
-    }
-    .hero-content {
-      position: relative;
-      z-index: 1;
-    }
-    .hero h1 { color: var(--green-light); }
-    .countdown-timer {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      margin-top: 1rem;
-    }
-    .time-unit {
-      background: var(--green);
-      padding: 1rem;
-      border-radius: 1rem;
-      text-align: center;
-    }
-    .time-value { font-size: 2rem; font-weight: bold; }
-    .time-label { font-size: 0.9rem; }
-
-    /* Sections */
-    .section { padding: 5rem 2rem; }
-    .section-dark { background: var(--green); color: var(--white); }
-    .section-light { background: var(--green-light); color: var(--green-dark); }
-    .section h2 {
-      text-align: center;
-      margin-bottom: 2rem;
-      font-size: 2.5rem;
-      font-family: 'Great Vibes', cursive;
+    .hero::after{
+      content:""; position:absolute; inset:0; background:var(--overlay);
     }
 
-    /* Story */
-    .story-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
+    /* falling petals container */
+    .petals{
+      pointer-events:none; position:absolute; inset:0; z-index:5; overflow:hidden;
     }
-    .story-card {
-      flex: 1 1 300px;
-      background: rgba(255,255,255,0.1);
-      padding: 2rem;
-      border-radius: 1rem;
-      text-align: center;
+    .petal{
+      position:absolute; width:28px; height:28px; background: radial-gradient(circle at 40% 30%, rgba(255,255,255,0.95) 0 40%, rgba(255,255,255,0.85) 41% 60%, rgba(255,255,255,0.7) 61% 100%);
+      border-radius:50% 50% 40% 60%;
+      transform-origin:center;
+      opacity:.95;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.08));
+      will-change: transform, top, left, opacity;
+      animation: fall linear infinite, sway ease-in-out infinite;
     }
-
-    /* Gallery Slider */
-    .gallery-slider {
-      position: relative;
-      max-width: 800px;
-      margin: auto;
-      overflow: hidden;
-      border-radius: 1rem;
+    /* create subtle differences using nth-child rules in inline CSS later, but default animations: */
+    @keyframes fall{
+      from{ transform: translateY(-10vh) rotate(0deg); opacity:1 }
+      to{ transform: translateY(110vh) rotate(360deg); opacity:0.85 }
     }
-    .slides {
-      display: flex;
-      transition: transform 1s ease-in-out;
-    }
-    .slides img {
-      width: 100%;
-      flex-shrink: 0;
-    }
-    .slider-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0,0,0,0.5);
-      border: none;
-      color: white;
-      font-size: 2rem;
-      cursor: pointer;
-      padding: 0.5rem 1rem;
-      border-radius: 50%;
-    }
-    .prev { left: 10px; }
-    .next { right: 10px; }
-
-    /* Celebration */
-    .details-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
-    }
-    .detail-card {
-      flex: 1 1 280px;
-      background: rgba(255,255,255,0.1);
-      padding: 2rem;
-      border-radius: 1rem;
-      text-align: center;
+    @keyframes sway{
+      0%{ transform: translateX(0) rotate(0deg) }
+      50%{ transform: translateX(18px) rotate(8deg) }
+      100%{ transform: translateX(0) rotate(0deg) }
     }
 
-    /* RSVP */
-    .rsvp-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    /* initials (center behind names) */
+    .hero-initials{
+      position:absolute; z-index:2; left:50%; top:48%;
+      transform:translate(-50%,-50%); font-family:'Great Vibes',cursive;
+      font-size:12rem; color:var(--gold); opacity:0; pointer-events:none;
+      mix-blend-mode:screen; text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      animation: initialsFade 2.6s cubic-bezier(.2,.9,.3,1) forwards;
     }
-    .rsvp-box {
-      background: rgba(255,255,255,0.95);
-      color: var(--green-dark);
-      padding: 2rem;
-      border-radius: 1.5rem;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-      text-align: center;
-      max-width: 500px;
-      width: 100%;
+    @keyframes initialsFade{
+      from{opacity:0; transform:translate(-50%,-50%) scale(.92)}
+      to{opacity:.18; transform:translate(-50%,-50%) scale(1)}
     }
-    .rsvp-box h2 {
-      font-family: 'Great Vibes', cursive;
-      color: var(--green-dark);
-      margin-bottom: 1rem;
-    }
-    form input, form select {
-      padding: 0.7rem;
-      width: 90%;
-      margin: 0.5rem 0;
-      border: 1px solid var(--green-light);
-      border-radius: 0.5rem;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.7rem 1.5rem;
-      background: var(--green-light);
-      color: var(--green-dark);
-      border-radius: 2rem;
-      text-decoration: none;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-    }
-    .btn:hover { background: var(--white); }
 
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 2rem;
-      background: var(--green-dark);
-      font-family: 'Great Vibes', cursive;
-      font-size: 1.5rem;
+    /* hero content */
+    .hero-content{ position:relative; z-index:10; color:var(--white); max-width:920px; padding:2rem }
+    .hero h1{ font-family:'Great Vibes',cursive; font-size:3.8rem; margin:0; color:var(--gold); text-shadow:0 6px 18px rgba(0,0,0,0.45) }
+    .hero h2{ font-family:'Cormorant Garamond',serif; font-size:1.6rem; margin:.25rem 0 6px; font-weight:600; color:#fff; opacity:.95 }
+    .hero h3{ font-family:'Montserrat',sans-serif; font-size:1rem; font-weight:300; opacity:.95; margin:0 0 14px }
+
+    /* countdown */
+    .countdown{ display:flex; gap:1rem; justify-content:center; margin-top:1rem }
+    .time-unit{ background: rgba(255,255,255,0.06); padding:.7rem 1rem; border-radius:10px; min-width:70px; }
+    .time-value{ font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; color:var(--white) }
+    .time-label{ font-size:.76rem; color:rgba(255,255,255,0.85) }
+
+    /* Section base */
+    .section{ padding:4.5rem 1.5rem; position:relative }
+    .section h2{ text-align:center; font-family:'Great Vibes',cursive; font-size:2.4rem; margin-bottom:1.2rem; color:var(--gold) }
+
+    /* story */
+    .story-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:1.2rem; max-width:1100px; margin:0 auto; }
+    .story-card{ background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); padding:1.2rem 1.3rem; border-radius:14px; box-shadow: 0 8px 30px rgba(0,0,0,0.2) }
+
+    /* GALLERY - hanging style */
+    .gallery-wrap{ max-width:1000px; margin:0 auto; display:flex; flex-direction:column; gap:1rem; align-items:center; }
+    .gallery-stage{ width:100%; overflow:hidden; position:relative }
+    .slides{ display:flex; transition: transform 900ms cubic-bezier(.2,.9,.3,1); gap:6%; padding:2% 3%; align-items:flex-start }
+    .slides .hang{
+      width:320px; flex:0 0 320px; background:transparent; display:flex; flex-direction:column; align-items:center;
+      transform-origin: top center;
+    }
+
+    .photo{
+      width:300px; height:200px; background-size:cover; background-position:center; border-radius:10px;
+      box-shadow: 0 14px 30px rgba(3,10,6,0.45); position:relative; margin-top:12px;
+      transition: transform 450ms ease, box-shadow 300ms ease;
+    }
+    /* decorative hanger */
+    .hanger{
+      width:2px; height:40px; background:linear-gradient(180deg,#fff,#fff0); opacity:.95; position:relative;
+      margin-top:8px;
+    }
+    .hanger::before{
+      content:""; width:12px; height:12px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);
+      display:block; transform: translateY(-7px); margin: 0 auto; background:transparent;
+    }
+    /* swing animation applied to each hanging block */
+    .hang.s1{ animation: swing 6s ease-in-out infinite; transform-origin: top center; }
+    .hang.s2{ animation: swing 5.3s ease-in-out infinite; transform-origin: top center; animation-delay:.2s }
+    .hang.s3{ animation: swing 6.8s ease-in-out infinite; animation-delay:.5s }
+    .hang.s4{ animation: swing 5.8s ease-in-out infinite; animation-delay: .1s }
+
+    @keyframes swing{
+      0%{ transform: rotate(-2deg) }
+      50%{ transform: rotate(3deg) }
+      100%{ transform: rotate(-2deg) }
+    }
+    .photo:hover{ transform: translateY(-6px) scale(1.03); box-shadow: 0 20px 40px rgba(0,0,0,0.4) }
+
+    /* gallery controls */
+    .gallery-controls{ width:100%; display:flex; justify-content:space-between; align-items:center; gap:10px; max-width:1000px; margin:0 auto; padding:0 2% }
+    .gbtn{ background:rgba(0,0,0,0.45); color:var(--white); border:none; font-size:1.4rem; padding:.55rem .85rem; border-radius:10px; cursor:pointer }
+    .gbtn:active{ transform:scale(.98) }
+
+    /* celebration & program list */
+    .celebration-grid{ display:flex; flex-wrap:wrap; gap:1.2rem; justify-content:center; align-items:flex-start; max-width:1000px; margin:0 auto; }
+    .program-list{ width:360px; background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); padding:1.2rem; border-radius:14px; box-shadow: 0 10px 30px rgba(0,0,0,0.25) }
+    .program-list h4{ margin:0 0 10px; font-family:'Cormorant Garamond',serif }
+    .program-items{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.8rem }
+    .program-item{
+      display:flex; align-items:center; gap:.8rem; padding:.65rem; border-radius:10px; cursor:pointer;
+      transition: transform .28s ease, background .28s ease; position:relative; overflow:hidden;
+    }
+    .program-item:hover{ transform: translateY(-4px); background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); }
+    .program-item .dot{
+      width:48px; height:48px; border-radius:12px; background:linear-gradient(180deg,var(--white), #f7f7f7); display:flex; align-items:center; justify-content:center; flex-shrink:0;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+    }
+    .program-item .time{ font-weight:700; font-family:'Cormorant Garamond',serif; color:var(--green-dark) }
+    .program-item .label{ font-size:.98rem; opacity:.95; font-family:'Montserrat',sans-serif; color:rgba(255,255,255,0.95) }
+
+    /* doodle animation (SVG inline) on each item reveal */
+    .doodle { width:36px; height:36px; display:block; transform:scale(.9); opacity:.95; transition:transform .4s ease }
+    .program-item:hover .doodle{ transform:scale(1.08) rotate(4deg) }
+
+    /* timeline cards (for anchors) */
+    .timeline{ flex:1 1 520px; padding:1rem; display:flex; flex-direction:column; gap:.8rem; }
+    .time-card{ background:rgba(255,255,255,0.95); color:var(--green-dark); padding:1rem 1.1rem; border-radius:12px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); transition:transform .28s ease, box-shadow .28s ease; }
+    .time-card.highlight{ transform: translateY(-6px) scale(1.01); box-shadow: 0 18px 40px rgba(0,0,0,0.18) }
+
+    /* RSVP box center */
+    .rsvp-container{ display:flex; justify-content:center; align-items:center; width:100% }
+    .rsvp-card{
+      max-width:600px; width:100%; padding:1.3rem; border-radius:14px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,250,0.95));
+      color:var(--green-dark); margin:0 auto; box-shadow: 0 18px 50px rgba(0,0,0,0.18); text-align:center;
+    }
+    .rsvp-card h2{ font-family:'Great Vibes',cursive; margin:.2rem 0 6px; font-size:2.4rem; color:var(--green-dark) }
+    .rsvp-card p{ margin:.2rem 0 12px; color:rgba(0,0,0,0.6) }
+
+    .rsvp-input{ width:92%; padding:.65rem; margin:.45rem 0; border-radius:10px; border:1px solid rgba(45,106,79,0.12); font-size:1rem }
+    .rsvp-submit{ background:linear-gradient(90deg,var(--green-light), #c1e6c9); color:var(--green-dark); border:none; padding:.7rem 1.05rem; border-radius:30px; cursor:pointer; font-weight:700; box-shadow:0 8px 20px rgba(43,100,66,0.14) }
+
+    /* footer */
+    footer{ padding:2rem 1rem; text-align:center; color:rgba(255,255,255,0.95); font-family:'Great Vibes',cursive; background:linear-gradient(180deg,rgba(0,0,0,0.06), transparent) }
+
+    /* responsive tweaks */
+    @media (max-width:880px){
+      .hero h1{ font-size:2.6rem }
+      .hero-initials{ font-size:8.2rem }
+      .slides{ gap:8% }
+      .slides .hang{ width:240px; flex:0 0 240px }
+      .photo{ width:220px; height:150px }
+      .program-list{ width:100% }
+      .timeline{ order:2 }
+    }
+    @media (max-width:520px){
+      .main-nav ul{ gap:.7rem }
+      .hero h1{ font-size:2.2rem }
+      .hero h2{ font-size:1.05rem }
+      .hero-initials{ font-size:6rem }
+      .slides{ padding:3% 4% }
+      .slides .hang{ width:200px; flex:0 0 200px }
+      .photo{ width:180px; height:130px }
     }
   </style>
 </head>
 <body>
-  <!-- NAV -->
-  <nav class="main-nav">
+
+  <!-- nav -->
+  <nav class="main-nav" id="nav">
     <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#story">Our Story</a></li>
-      <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#celebration">The Celebration</a></li>
-      <li><a href="#rsvp">RSVP</a></li>
+      <li><a href="#home" class="nav-link active">Home</a></li>
+      <li><a href="#story" class="nav-link">Our Story</a></li>
+      <li><a href="#gallery" class="nav-link">Gallery</a></li>
+      <li><a href="#celebration" class="nav-link">The Celebration</a></li>
+      <li><a href="#rsvp" class="nav-link">RSVP</a></li>
     </ul>
   </nav>
 
+  <!-- petals (will be filled by JS) -->
+  <div class="petals" aria-hidden="true"></div>
+
   <!-- HERO -->
-  <header class="hero" id="home">
-    <div class="hero-initials">F & J</div>
-    <div class="hero-content">
-      <h1>Fritz & Joana</h1>
-      <h2>We're Getting Married!</h2>
-      <h3>November 28, 2025 | Dumaguete City</h3>
-      <div class="countdown-timer">
-        <div class="time-unit"><span class="time-value" id="days">00</span><div class="time-label">Days</div></div>
-        <div class="time-unit"><span class="time-value" id="hours">00</span><div class="time-label">Hours</div></div>
-        <div class="time-unit"><span class="time-value" id="minutes">00</span><div class="time-label">Minutes</div></div>
-        <div class="time-unit"><span class="time-value" id="seconds">00</span><div class="time-label">Seconds</div></div>
+  <header class="hero" id="home" role="banner">
+    <div class="hero-initials">F &amp; J</div>
+
+    <div class="hero-content" role="main" aria-labelledby="hero-title">
+      <h1 id="hero-title">Fritz &amp; Joana</h1>
+      <h2>We're getting married!</h2>
+      <h3>November 28, 2025 &nbsp;•&nbsp; Dumaguete City</h3>
+
+      <div class="countdown" aria-live="polite" aria-atomic="true">
+        <div class="time-unit"><div class="time-value" id="days">00</div><div class="time-label">Days</div></div>
+        <div class="time-unit"><div class="time-value" id="hours">00</div><div class="time-label">Hours</div></div>
+        <div class="time-unit"><div class="time-value" id="minutes">00</div><div class="time-label">Minutes</div></div>
+        <div class="time-unit"><div class="time-value" id="seconds">00</div><div class="time-label">Seconds</div></div>
       </div>
     </div>
   </header>
 
-  <!-- OUR STORY -->
+  <!-- STORY -->
   <section class="section section-dark" id="story">
-    <h2>Our Story</h2>
-    <div class="story-container">
+    <h2>Our Journey</h2>
+    <div class="story-grid">
       <div class="story-card">
-        <h3>How We Met</h3>
-        <p>It all began with a smile that blossomed into forever.</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;">How We Met</h3>
+        <p>It all started with a smile that blossomed into forever — coffee, conversations, and shared sunsets in Dumaguete.</p>
       </div>
       <div class="story-card">
-        <h3>The Adventures</h3>
-        <p>From travels to late-night talks, our journey has been filled with joy.</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;">Adventures</h3>
+        <p>From islands to late-night talks, every trip brought us closer — and we can't wait to celebrate with you.</p>
       </div>
     </div>
   </section>
@@ -294,108 +272,414 @@
   <!-- GALLERY -->
   <section class="section section-light" id="gallery">
     <h2>Captured Moments</h2>
-    <div class="gallery-slider">
-      <div class="slides">
-        <img src="8R302075 (29).jpg" alt="Memory 1">
-        <img src="8R302075 (38).jpg" alt="Memory 2">
-        <img src="8R302075 (57).jpg" alt="Memory 3">
-        <img src="8R302075 (6).jpg" alt="Memory 4">
+
+    <div class="gallery-wrap">
+      <div class="gallery-stage">
+        <div class="slides" id="slides">
+          <!-- Each hang block contains the hanger + photo. Use classes s1..s4 to slightly vary swing -->
+          <div class="hang s1">
+            <div class="hanger"></div>
+            <div class="photo" style="background-image:url('8R302075 (29).jpg');"></div>
+          </div>
+
+          <div class="hang s2">
+            <div class="hanger"></div>
+            <div class="photo" style="background-image:url('8R302075 (38).jpg');"></div>
+          </div>
+
+          <div class="hang s3">
+            <div class="hanger"></div>
+            <div class="photo" style="background-image:url('8R302075 (57).jpg');"></div>
+          </div>
+
+          <div class="hang s4">
+            <div class="hanger"></div>
+            <div class="photo" style="background-image:url('8R302075 (6).jpg');"></div>
+          </div>
+        </div>
       </div>
-      <button class="slider-btn prev">&#10094;</button>
-      <button class="slider-btn next">&#10095;</button>
+
+      <div class="gallery-controls" aria-hidden="false">
+        <button class="gbtn" id="prevBtn" aria-label="Previous photo">&larr;</button>
+        <div style="flex:1"></div>
+        <button class="gbtn" id="nextBtn" aria-label="Next photo">&rarr;</button>
+      </div>
     </div>
   </section>
 
   <!-- CELEBRATION -->
   <section class="section section-dark" id="celebration">
     <h2>The Celebration</h2>
-    <div class="details-grid">
-      <div class="detail-card">
-        <h3>Ceremony</h3>
-        <p><strong>2:00 PM</strong></p>
-        <p>Our Mother of Perpetual Help Redemptorist – Dumaguete</p>
-      </div>
-      <div class="detail-card">
-        <h3>Reception</h3>
-        <p><strong>4:30 PM</strong></p>
-        <p>The Baly Oriental Hotel – Dumaguete</p>
+
+    <div class="celebration-grid">
+      <!-- program list -->
+      <aside class="program-list" aria-label="Program list">
+        <h4 style="margin-bottom:.6rem; color:var(--white)">Program of Activities</h4>
+        <ul class="program-items" id="programList">
+          <!-- Each list item includes a small doodle SVG that animates. Clicking scrolls to the corresponding timeline card. -->
+          <li class="program-item" data-target="t1">
+            <div class="dot">
+              <!-- floral doodle -->
+              <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C13 5 16 5 18 7C14 9 14 12 12 15C10 12 10 9 6 7C8 5 11 5 12 2Z" stroke="#2b6a45" stroke-width="0.9" fill="#fff"/>
+              </svg>
+            </div>
+            <div style="display:flex;flex-direction:column;">
+              <div class="time">2:00 PM</div>
+              <div class="label">Church Ceremony</div>
+            </div>
+          </li>
+
+          <li class="program-item" data-target="t2">
+            <div class="dot">
+              <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 3C8 3 9.5 5 12 6C14.5 5 16 3 18 3C16 6 13 7 12 10C11 7 8 6 6 3Z" stroke="#2b6a45" stroke-width="0.9" fill="#fff"/>
+              </svg>
+            </div>
+            <div style="display:flex;flex-direction:column;">
+              <div class="time">4:30 PM</div>
+              <div class="label">Reception &amp; Pica-pica</div>
+            </div>
+          </li>
+
+          <li class="program-item" data-target="t3">
+            <div class="dot">
+              <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="8" r="3" fill="#fff" stroke="#2b6a45" stroke-width="0.9"/>
+              </svg>
+            </div>
+            <div style="display:flex;flex-direction:column;">
+              <div class="time">5:30 PM</div>
+              <div class="label">Reception Program</div>
+            </div>
+          </li>
+
+          <li class="program-item" data-target="t4">
+            <div class="dot">
+              <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="4" width="12" height="6" rx="2" fill="#fff" stroke="#2b6a45" stroke-width="0.9"/>
+              </svg>
+            </div>
+            <div style="display:flex;flex-direction:column;">
+              <div class="time">6:00 PM</div>
+              <div class="label">Dinner</div>
+            </div>
+          </li>
+
+          <li class="program-item" data-target="t5">
+            <div class="dot">
+              <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 12C6 10 9 11 12 8C15 11 18 10 20 12" stroke="#2b6a45" stroke-width="0.9" fill="#fff"/>
+              </svg>
+            </div>
+            <div style="display:flex;flex-direction:column;">
+              <div class="time">7:00 PM</div>
+              <div class="label">Entertainment &amp; Fun Games</div>
+            </div>
+          </li>
+
+          <li class="program-item" data-target="t6">
+            <div class="dot">
+              <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9C8 5 16 5 18 9" stroke="#2b6a45" stroke-width="0.9" fill="#fff"/>
+              </svg>
+            </div>
+            <div style="display:flex;flex-direction:column;">
+              <div class="time">8:00 PM</div>
+              <div class="label">After Party</div>
+            </div>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- timeline / anchor cards -->
+      <div class="timeline" id="timeline">
+        <div class="time-card" id="t1">
+          <h4 style="margin:0 0 6px;">Church Ceremony</h4>
+          <p style="margin:0; font-weight:700">2:00 PM</p>
+          <p style="margin:.5rem 0 0; color: rgba(0,0,0,0.6)">Our Mother of Perpetual Help Redemptorist – Dumaguete</p>
+        </div>
+        <div class="time-card" id="t2">
+          <h4 style="margin:0 0 6px;">Reception &amp; Pica-pica</h4>
+          <p style="margin:0; font-weight:700">4:30 PM</p>
+          <p style="margin:.5rem 0 0; color: rgba(0,0,0,0.6)">The Baly Oriental Hotel – Dumaguete</p>
+        </div>
+        <div class="time-card" id="t3">
+          <h4 style="margin:0 0 6px;">Reception Program</h4>
+          <p style="margin:0; font-weight:700">5:30 PM</p>
+          <p style="margin:.5rem 0 0; color: rgba(0,0,0,0.6)">Speeches, toasts, and dancing.</p>
+        </div>
+        <div class="time-card" id="t4">
+          <h4 style="margin:0 0 6px;">Dinner</h4>
+          <p style="margin:0; font-weight:700">6:00 PM</p>
+          <p style="margin:.5rem 0 0; color: rgba(0,0,0,0.6)">A plated dinner with local favorites.</p>
+        </div>
+        <div class="time-card" id="t5">
+          <h4 style="margin:0 0 6px;">Entertainment &amp; Fun Games</h4>
+          <p style="margin:0; font-weight:700">7:00 PM</p>
+          <p style="margin:.5rem 0 0; color: rgba(0,0,0,0.6)">Get ready to laugh & play!</p>
+        </div>
+        <div class="time-card" id="t6">
+          <h4 style="margin:0 0 6px;">After Party</h4>
+          <p style="margin:0; font-weight:700">8:00 PM</p>
+          <p style="margin:.5rem 0 0; color: rgba(0,0,0,0.6)">Music and dancing late into the night.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- RSVP -->
   <section class="section section-light" id="rsvp">
-    <div class="rsvp-container">
-      <div class="rsvp-box">
-        <h2>Kindly RSVP</h2>
-        <p>Please confirm your attendance by <strong>November 8, 2025</strong>.</p>
-        <form>
-          <input type="text" placeholder="Your Name" required><br>
-          <select required>
+    <h2>Kindly RSVP</h2>
+    <div class="rsvp-container" style="padding-top:10px; padding-bottom:10px;">
+      <div class="rsvp-card" role="form" aria-labelledby="rsvp-title">
+        <h2 id="rsvp-title">Will you celebrate with us?</h2>
+        <p>Please confirm attendance by <strong>November 8, 2025</strong>.</p>
+
+        <form id="rsvpForm" onsubmit="event.preventDefault(); handleRSVP();">
+          <input class="rsvp-input" id="rsvpName" type="text" placeholder="Your full name" required />
+          <br />
+          <select class="rsvp-input" id="rsvpAttend" required>
             <option value="">Will you attend?</option>
-            <option value="yes">Yes, I’ll be there</option>
-            <option value="no">Sorry, I can’t make it</option>
-          </select><br>
-          <button type="submit" class="btn">Submit</button>
+            <option value="yes">Yes — I'll be there</option>
+            <option value="no">Sorry — can't make it</option>
+          </select>
+          <br />
+          <textarea id="rsvpMsg" class="rsvp-input" rows="3" placeholder="A short message (optional)"></textarea>
+          <br />
+          <button class="rsvp-submit" type="submit">Send RSVP</button>
         </form>
+
+        <div id="rsvpThanks" style="display:none; margin-top:12px; color:var(--green-dark)"></div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p>With love, Fritz & Joana</p>
-    <p>#FinallyFritzAndJoana</p>
+  <!-- footer -->
+  <footer>
+    <p style="margin:0 .2rem;">With love, Fritz &amp; Joana</p>
+    <small style="opacity:.9; display:block; margin-top:.6rem">#FinallyFritzAndJoana</small>
   </footer>
 
   <!-- JS -->
   <script>
-    // Countdown
-    const targetDate = new Date("November 28, 2025 14:00:00").getTime();
-    const daysEl = document.getElementById("days");
-    const hoursEl = document.getElementById("hours");
-    const minutesEl = document.getElementById("minutes");
-    const secondsEl = document.getElementById("seconds");
+    /*********************
+     * Petals generator
+     *********************/
+    (function createPetals(){
+      const container = document.querySelector('.petals');
+      const count = 16; // number of petals
+      for(let i=0;i<count;i++){
+        const el = document.createElement('div');
+        el.className = 'petal';
+        // random position start across width, stagger top, duration and delay
+        const left = Math.random()*100; // vw percent
+        const size = 16 + Math.random()*28; // px
+        el.style.width = size + 'px';
+        el.style.height = Math.round(size * 0.85) + 'px';
+        el.style.left = left + 'vw';
+        el.style.top = (-10 - Math.random()*20) + 'vh';
+        // duration vary 6s-14s
+        const dur = 7 + Math.random()*10;
+        el.style.animationDuration = dur + 's, ' + (4 + Math.random()*4) + 's';
+        el.style.animationDelay = (Math.random()*-6) + 's';
+        // slightly vary opacity & rotation
+        el.style.opacity = 0.7 + Math.random()*0.25;
+        el.style.transform = 'rotate(' + (Math.random()*40 - 20) + 'deg)';
+        container.appendChild(el);
+      }
+    })();
 
-    setInterval(() => {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-      const days = Math.floor(distance / (1000*60*60*24));
-      const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-      const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-      const seconds = Math.floor((distance % (1000*60)) / 1000);
-      daysEl.textContent = days;
-      hoursEl.textContent = hours;
-      minutesEl.textContent = minutes;
-      secondsEl.textContent = seconds;
-    }, 1000);
+    /*********************
+     * Countdown
+     *********************/
+    (function countDown(){
+      // Target date/time in local timezone
+      const target = new Date("November 28, 2025 14:00:00").getTime();
+      const dEl = document.getElementById('days'), hEl = document.getElementById('hours'), mEl = document.getElementById('minutes'), sEl = document.getElementById('seconds');
 
-    // Nav scroll style
-    window.addEventListener("scroll", () => {
-      const nav = document.querySelector(".main-nav");
-      if (window.scrollY > 50) nav.classList.add("scrolled");
-      else nav.classList.remove("scrolled");
+      function tick(){
+        const now = Date.now();
+        const dist = target - now;
+        if(dist <= 0){
+          dEl.textContent = '00'; hEl.textContent='00'; mEl.textContent='00'; sEl.textContent='00';
+          clearInterval(interval);
+          return;
+        }
+        const days = Math.floor(dist/(1000*60*60*24));
+        const hours = Math.floor((dist%(1000*60*60*24))/(1000*60*60));
+        const mins = Math.floor((dist%(1000*60*60))/(1000*60));
+        const secs = Math.floor((dist%(1000*60))/1000);
+        dEl.textContent = String(days).padStart(2,'0');
+        hEl.textContent = String(hours).padStart(2,'0');
+        mEl.textContent = String(mins).padStart(2,'0');
+        sEl.textContent = String(secs).padStart(2,'0');
+      }
+      tick();
+      const interval = setInterval(tick,1000);
+    })();
+
+    /*********************
+     * nav active state & scroll
+     *********************/
+    (function navWatch(){
+      const links = document.querySelectorAll('.nav-link');
+      const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href')));
+      const nav = document.querySelector('.main-nav');
+
+      function onScroll(){
+        const fromTop = window.scrollY + 90; // offset to trigger earlier
+        // toggle nav scrolled style
+        if(window.scrollY > 40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+
+        sections.forEach((sec,i)=>{
+          if(!sec) return;
+          const top = sec.offsetTop;
+          const bottom = top + sec.offsetHeight;
+          if(fromTop >= top && fromTop < bottom){
+            links.forEach(x => x.classList.remove('active'));
+            links[i].classList.add('active');
+          }
+        });
+      }
+      window.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+      // enable smooth scroll offset for older browsers
+      links.forEach(a => {
+        a.addEventListener('click', (e)=>{
+          links.forEach(x=>x.classList.remove('active'));
+          a.classList.add('active');
+        });
+      });
+    })();
+
+    /*********************
+     * Gallery slider (with hanging animation preserved)
+     *********************/
+    (function gallery(){
+      const slides = document.getElementById('slides');
+      const hangs = slides.querySelectorAll('.hang');
+      const prev = document.getElementById('prevBtn');
+      const next = document.getElementById('nextBtn');
+      let index = 0;
+      const perView = 1; // we show one hanging item focus, slides are flexible width with gap
+      // compute slide width shift: we will translate by (itemWidth + gap) * i
+      function update(){
+        // get first hang width + gap approximate
+        const w = hangs[0].getBoundingClientRect().width;
+        const gap =  (slides.getBoundingClientRect().width - (hangs.length * w)) / (hangs.length - 1 || 1);
+        // Since we used percent paddings and gaps, simpler: translate by (index*(w + 0.06*slidesWidth))
+        const shift = (index*(w + (slides.getBoundingClientRect().width * 0.06)));
+        slides.style.transform = `translateX(${-shift}px)`;
+      }
+      // fallback simpler approach using percent: translate by index * 352px approx; but compute dynamic
+      function smartUpdate(){
+        const wrapW = slides.parentElement.getBoundingClientRect().width;
+        const firstW = hangs[0].getBoundingClientRect().width;
+        const gap = (wrapW - firstW) * 0.06;
+        const stride = firstW + gap;
+        slides.style.transform = `translateX(${-index * (stride)}px)`;
+      }
+
+      function prevSlide(){
+        index = (index - 1 + hangs.length) % hangs.length;
+        smartUpdate();
+      }
+      function nextSlide(){
+        index = (index + 1) % hangs.length;
+        smartUpdate();
+      }
+      prev.addEventListener('click', prevSlide);
+      next.addEventListener('click', nextSlide);
+
+      // autoplay
+      let auto = setInterval(nextSlide, 4800);
+      // pause on hover
+      slides.parentElement.addEventListener('mouseenter', ()=> clearInterval(auto));
+      slides.parentElement.addEventListener('mouseleave', ()=> auto = setInterval(nextSlide,4800));
+
+      // make responsive
+      window.addEventListener('resize', smartUpdate);
+      // initial
+      setTimeout(smartUpdate,120);
+    })();
+
+
+    /*********************
+     * Program list: clicking an item scrolls/highlights corresponding card
+     *********************/
+    (function programNav(){
+      const items = document.querySelectorAll('.program-item');
+      const cards = document.querySelectorAll('.time-card');
+      function unhighlight(){
+        cards.forEach(c=>c.classList.remove('highlight'));
+      }
+      items.forEach(it=>{
+        it.addEventListener('click', ()=>{
+          const t = it.getAttribute('data-target');
+          const card = document.getElementById(t);
+          if(card){
+            // scroll to card smoothly (account for nav height)
+            const y = card.getBoundingClientRect().top + window.scrollY - 90;
+            window.scrollTo({top: y, behavior: 'smooth'});
+            // highlight
+            unhighlight();
+            setTimeout(()=> card.classList.add('highlight'), 600);
+            // remove highlight after a while
+            setTimeout(()=> card.classList.remove('highlight'), 3000);
+          }
+        });
+
+        // extra tiny doodle animation on hover
+        it.addEventListener('mouseenter', ()=> {
+          it.querySelector('.dot').style.transform = 'translateY(-3px)';
+        });
+        it.addEventListener('mouseleave', ()=> {
+          it.querySelector('.dot').style.transform = 'translateY(0)';
+        });
+      });
+    })();
+
+    /*********************
+     * RSVP handler (demo only - does not send)
+     *********************/
+    function handleRSVP(){
+      const name = document.getElementById('rsvpName').value.trim();
+      const attend = document.getElementById('rsvpAttend').value;
+      const msg = document.getElementById('rsvpMsg').value.trim();
+      const thanks = document.getElementById('rsvpThanks');
+      // simple local confirmation
+      thanks.style.display = 'block';
+      thanks.innerHTML = `Thanks ${name || ''}! Your RSVP was recorded: <strong>${attend === 'yes' ? 'Attending' : 'Not attending'}</strong> ${msg ? '<br/><em>"' + msg + '"</em>' : ''}`;
+      // reset form a touch (keep values in demo)
+      // clearTimeout if needed
+      setTimeout(()=>{ thanks.style.opacity = '1'; }, 200);
+    }
+
+    /*********************
+     * small accessibility + touch niceties
+     *********************/
+    // ensure nav link active when page loads
+    document.addEventListener('DOMContentLoaded', ()=>{
+      // handle clicking nav links to offset fixed nav height
+      document.querySelectorAll('.main-nav a').forEach(a=>{
+        a.addEventListener('click', (e)=>{
+          // allow browser to set hash & then perform offset scroll
+          const href = a.getAttribute('href');
+          if(href && href.startsWith('#')){
+            e.preventDefault();
+            const el = document.querySelector(href);
+            if(el){
+              const top = el.getBoundingClientRect().top + window.scrollY - 70;
+              window.scrollTo({ top, behavior:'smooth' });
+              // set hash
+              history.replaceState(null, '', href);
+            }
+          }
+        });
+      });
     });
 
-    // Gallery Slider
-    const slides = document.querySelector(".slides");
-    const slideImages = document.querySelectorAll(".slides img");
-    const prevBtn = document.querySelector(".prev");
-    const nextBtn = document.querySelector(".next");
-    let index = 0;
-
-    function showSlide(i) {
-      if (i < 0) index = slideImages.length - 1;
-      else if (i >= slideImages.length) index = 0;
-      else index = i;
-      slides.style.transform = `translateX(${-index * 100}%)`;
-    }
-    prevBtn.addEventListener("click", () => showSlide(index - 1));
-    nextBtn.addEventListener("click", () => showSlide(index + 1));
-
-    // Auto slide
-    setInterval(() => showSlide(index + 1), 5000);
   </script>
 </body>
 </html>
-```
