@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fritz & Joana | We're Getting Married!</title>
+  <title>Fritz & Joana | Wedding Invitation</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
   <style>
@@ -15,13 +15,12 @@
       --green-dark: #1b4332;
       --green: #2d6a4f;
       --green-light: #95d5b2;
-      --white: #fff;
-      --overlay: rgba(0, 0, 0, 0.4);
+      --white: #ffffff;
+      --overlay: rgba(0,0,0,0.55);
+      --gold: #d4af37;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -31,269 +30,163 @@
       overflow-x: hidden;
     }
 
-    h1, h2, h3 {
-      font-family: 'Playfair Display', serif;
-    }
+    h1,h2,h3 { font-family: 'Playfair Display', serif; }
 
     /* Navigation */
     .main-nav {
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(27, 67, 50, 0.95);
+      background: rgba(27, 67, 50, 0.9);
       padding: 1rem;
       text-align: center;
       z-index: 1000;
-      transition: background 0.5s ease, box-shadow 0.5s ease, transform 0.5s ease;
+      transition: background 0.5s ease, box-shadow 0.5s ease;
     }
-
-    .main-nav.scrolled {
-      background: rgba(27, 67, 50, 1);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    .main-nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-    }
-
+    .main-nav.scrolled { background: var(--green); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .main-nav ul { list-style:none; display:flex; justify-content:center; gap:2rem; margin:0; padding:0; }
     .main-nav a {
-      text-decoration: none;
-      color: var(--green-light);
-      font-weight: 600;
-      position: relative;
+      text-decoration:none; color: var(--green-light); font-weight:600; position:relative;
       transition: color 0.4s ease, transform 0.4s ease;
     }
-
     .main-nav a::after {
-      content: "";
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background: var(--green-light);
+      content:""; position:absolute; bottom:-5px; left:0; width:0%; height:2px; background:var(--green-light);
       transition: width 0.4s ease;
     }
+    .main-nav a:hover { color: var(--white); transform: translateY(-2px); }
+    .main-nav a:hover::after { width:100%; }
 
-    .main-nav a:hover {
-      color: var(--white);
-      transform: translateY(-2px);
-    }
-
-    .main-nav a:hover::after {
-      width: 100%;
-    }
-
-    /* Hero Section */
+    /* Hero */
     .hero {
       height: 100vh;
       background: url("8R302075 (6).jpg") center/cover no-repeat;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      display:flex; justify-content:center; align-items:center;
+      text-align:center; position:relative; color: var(--white);
     }
-
     .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: var(--overlay);
+      content:""; position:absolute; inset:0; background:var(--overlay);
     }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      animation: fadeInUp 2s ease;
-    }
-
-    .hero h1 {
-      font-size: 4rem;
-      margin-bottom: 0.5rem;
-      color: var(--green-light);
-    }
-
-    .hero h2 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .hero h3 {
-      font-size: 1.2rem;
-      font-weight: 400;
-    }
+    .hero-content { position:relative; z-index:1; animation: fadeInUp 2s ease; }
+    .hero h1 { font-size:3.5rem; margin-bottom:0.5rem; color: var(--green-light);}
+    .hero h2 { font-size:1.8rem; margin-bottom:0.5rem; }
+    .hero h3 { font-weight:300; font-size:1.2rem; }
 
     /* Countdown */
     .countdown-timer {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      margin-top: 1.5rem;
+      display:flex; gap:1.5rem; justify-content:center; margin-top:1.5rem;
     }
-
     .time-unit {
-      text-align: center;
-      background: var(--green);
-      padding: 1rem;
-      border-radius: 1rem;
-      animation: pulse 2s infinite;
+      text-align:center; background:var(--green); padding:1rem; border-radius:1rem;
+      animation:pulse 2s infinite;
     }
-
-    .time-value {
-      font-size: 2rem;
-      font-weight: bold;
-    }
-
-    .time-label {
-      font-size: 0.9rem;
-    }
+    .time-value { font-size:2rem; font-weight:bold; }
+    .time-label { font-size:0.9rem; }
 
     /* Sections */
-    .section {
-      padding: 5rem 2rem;
-      position: relative;
-    }
+    .section { padding:5rem 2rem; position:relative; }
+    .section-dark { background: var(--green); color: var(--white);}
+    .section-light { background: var(--green-light); color: var(--green-dark);}
+    .section h2 { text-align:center; margin-bottom:2rem; font-size:2.2rem; }
 
-    .section-dark {
-      background: var(--green);
-    }
-
-    .section-light {
-      background: var(--green-light);
-      color: var(--green-dark);
-    }
-
-    .section h2 {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
+    /* Story */
     .story-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
+      display:flex; flex-wrap:wrap; gap:2rem; justify-content:center;
     }
-
     .story-card {
-      flex: 1 1 300px;
-      background: rgba(255,255,255,0.1);
-      padding: 2rem;
-      border-radius: 1rem;
-      backdrop-filter: blur(6px);
-      transition: transform 0.3s ease;
+      flex:1 1 300px; background:rgba(255,255,255,0.1); padding:2rem;
+      border-radius:1rem; backdrop-filter:blur(6px); transition:transform 0.3s ease;
     }
+    .story-card:hover { transform:translateY(-5px) scale(1.02); }
 
-    .story-card:hover {
-      transform: translateY(-5px) scale(1.02);
-    }
-
+    /* Gallery */
     .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1rem;
     }
-
     .gallery-grid img {
-      width: 100%;
-      border-radius: 1rem;
-      transition: transform 0.3s ease;
+      width:100%; border-radius:1rem; transition:transform 0.3s ease;
     }
-
-    .gallery-grid img:hover {
-      transform: scale(1.05);
-    }
+    .gallery-grid img:hover { transform:scale(1.05); }
 
     /* Invitation */
     .invitation-box {
-      background: rgba(255, 255, 255, 0.8);
-      padding: 2rem;
-      border-radius: 1rem;
-      color: var(--green-dark);
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      background: rgba(255,255,255,0.9); padding:2rem; border-radius:1rem;
+      color:var(--green-dark); text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.2);
     }
 
     /* Celebration */
     .details-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
+      display:flex; flex-wrap:wrap; gap:2rem; justify-content:center;
     }
-
     .detail-card {
-      flex: 1 1 300px;
-      background: rgba(255,255,255,0.1);
-      padding: 2rem;
-      border-radius: 1rem;
-      text-align: center;
-      transition: transform 0.3s ease;
+      flex:1 1 280px; background:rgba(255,255,255,0.1); padding:2rem;
+      border-radius:1rem; text-align:center; transition:transform 0.3s ease;
     }
-
-    .detail-card:hover {
-      transform: translateY(-5px);
-    }
+    .detail-card:hover { transform:translateY(-5px); }
 
     .btn {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.7rem 1.5rem;
-      background: var(--green-light);
+      display:inline-block; margin-top:1rem; padding:0.7rem 1.5rem;
+      background:var(--green-light); color:var(--green-dark); text-decoration:none;
+      border-radius:2rem; transition:all 0.3s ease; font-weight:bold;
+    }
+    .btn:hover { background:var(--white); color:var(--green); }
+
+    /* Program Timeline */
+    .program-timeline {
+      position:relative; margin:3rem auto; padding:2rem 0; max-width:700px;
+    }
+    .program-timeline::before {
+      content:""; position:absolute; left:50%; top:0; bottom:0; width:3px;
+      background: var(--gold); transform:translateX(-50%);
+    }
+    .program-item {
+      position:relative; width:50%; padding:1.5rem; box-sizing:border-box;
+    }
+    .program-item:nth-child(odd) { left:0; text-align:right; }
+    .program-item:nth-child(even) { left:50%; text-align:left; }
+    .program-item .content {
+      background: rgba(255,255,255,0.9);
       color: var(--green-dark);
-      text-decoration: none;
-      border-radius: 2rem;
-      transition: all 0.3s ease;
-      font-weight: bold;
+      padding:1.2rem;
+      border-radius:0.8rem;
+      display:inline-block;
+      box-shadow:0 4px 15px rgba(0,0,0,0.2);
+      transition:transform 0.3s ease;
     }
-
-    .btn:hover {
-      background: var(--white);
-      color: var(--green);
+    .program-item:hover .content { transform:scale(1.05); }
+    .program-item::before {
+      content:""; position:absolute; top:20px; width:18px; height:18px;
+      border-radius:50%; background:var(--gold); border:3px solid var(--white);
+      z-index:1;
     }
+    .program-item:nth-child(odd)::before { right:-10px; }
+    .program-item:nth-child(even)::before { left:-10px; }
 
-    .activity-list {
-      list-style: none;
-      padding: 0;
-      text-align: center;
-    }
-
-    .activity-list li {
-      margin: 0.5rem 0;
+    /* RSVP */
+    form input, form select {
+      padding:0.7rem; width:80%; margin:0.5rem 0; border:none;
+      border-radius:0.5rem;
     }
 
     /* Footer */
-    .footer {
-      text-align: center;
-      padding: 2rem;
-      background: var(--green-dark);
-    }
+    .footer { text-align:center; padding:2rem; background:var(--green-dark); }
 
     /* Animations */
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {opacity:0; transform:translateY(50px);}
+      to {opacity:1; transform:translateY(0);}
     }
-
     @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      0%,100% {transform:scale(1);}
+      50% {transform:scale(1.05);}
     }
   </style>
 
-  <!-- AOS (Animate On Scroll) Library -->
+  <!-- AOS -->
   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 </head>
-
 <body>
 
+  <!-- NAV -->
   <nav class="main-nav">
     <ul>
       <li><a href="#home">Home</a></li>
@@ -304,12 +197,12 @@
     </ul>
   </nav>
 
+  <!-- HERO -->
   <header class="hero" id="home">
-    <div class="hero-content" data-aos="fade-up" data-aos-duration="1200">
+    <div class="hero-content" data-aos="fade-up">
       <h1>Fritz & Joana</h1>
       <h2>We're Getting Married!</h2>
       <h3>November 28, 2025 | Dumaguete City</h3>
-
       <div id="countdown" class="countdown-timer" data-aos="zoom-in">
         <div class="time-unit"><span class="time-value" id="days">00</span><div class="time-label">Days</div></div>
         <div class="time-unit"><span class="time-value" id="hours">00</span><div class="time-label">Hours</div></div>
@@ -319,66 +212,102 @@
     </div>
   </header>
 
-  <!-- Our Story -->
+  <!-- STORY -->
   <section class="section section-dark" id="story">
-    <h2 data-aos="fade-up">Our Story</h2>
+    <h2 data-aos="fade-up">Our Journey</h2>
     <div class="story-container">
       <div class="story-card" data-aos="fade-right">
         <h3>How We Met</h3>
-        <p>It all began with a smile that changed everything...</p>
+        <p>It all started with a smile that blossomed into forever.</p>
       </div>
       <div class="story-card" data-aos="fade-left">
-        <h3>The Journey</h3>
-        <p>Through adventures, laughter, and love, our bond grew stronger.</p>
+        <h3>The Adventures</h3>
+        <p>From travel to late-night talks, our journey has been filled with joy.</p>
       </div>
     </div>
   </section>
 
-  <!-- Gallery -->
+  <!-- GALLERY -->
   <section class="section section-light" id="gallery">
-    <h2 data-aos="fade-up">Our Memories</h2>
+    <h2 data-aos="fade-up">Captured Moments</h2>
     <div class="gallery-grid">
-      <img src="photo1.jpg" alt="Memory 1" data-aos="zoom-in">
-      <img src="photo2.jpg" alt="Memory 2" data-aos="zoom-in">
-      <img src="photo3.jpg" alt="Memory 3" data-aos="zoom-in">
-      <img src="photo4.jpg" alt="Memory 4" data-aos="zoom-in">
+      <img src="8R302075 (29).jpg" alt="Memory 1" data-aos="zoom-in">
+      <img src="8R302075 (38).jpg" alt="Memory 2" data-aos="zoom-in">
+      <img src="8R302075 (57).jpg" alt="Memory 3" data-aos="zoom-in">
+      <img src="8R302075 (6).jpg" alt="Memory 4" data-aos="zoom-in">
     </div>
   </section>
 
-  <!-- Invitation -->
+  <!-- INVITATION -->
   <section class="section section-dark" id="invitation">
     <div class="invitation-box" data-aos="flip-up">
       <h2>You're Invited!</h2>
-      <p>We would love for you to join us as we say "I Do".</p>
+      <p>Please join us in celebrating our union.</p>
       <p><strong>November 28, 2025</strong></p>
-      <p><strong>Dumaguete City</strong></p>
+      <p><strong>Our Mother of Perpetual Help Redemptorist – Dumaguete</strong></p>
     </div>
   </section>
 
-  <!-- Celebration -->
+  <!-- CELEBRATION -->
   <section class="section section-light" id="celebration">
     <h2 data-aos="fade-up">The Celebration</h2>
     <div class="details-grid">
       <div class="detail-card" data-aos="fade-right">
         <h3>Ceremony</h3>
-        <p>St. Catherine’s Cathedral</p>
-        <p>2:00 PM</p>
+        <p><strong>2:00 PM</strong></p>
+        <p>Our Mother of Perpetual Help Redemptorist – Dumaguete</p>
+        <a href="https://maps.app.goo.gl/..." target="_blank" class="btn">View Map</a>
       </div>
       <div class="detail-card" data-aos="fade-left">
         <h3>Reception</h3>
-        <p>Seaside Pavilion</p>
-        <p>6:00 PM</p>
+        <p><strong>4:30 PM</strong></p>
+        <p>The Baly Oriental Hotel – Dumaguete</p>
+        <a href="https://maps.app.goo.gl/..." target="_blank" class="btn">View Map</a>
+      </div>
+    </div>
+
+    <h3 style="text-align:center; margin-top:3rem;">Program of Events</h3>
+    <div class="program-timeline">
+      <div class="program-item" data-aos="fade-right">
+        <div class="content">
+          <h4>2:00 PM</h4>
+          <p>Wedding Ceremony</p>
+        </div>
+      </div>
+      <div class="program-item" data-aos="fade-left">
+        <div class="content">
+          <h4>4:30 PM</h4>
+          <p>Reception & Pica-pica</p>
+        </div>
+      </div>
+      <div class="program-item" data-aos="fade-right">
+        <div class="content">
+          <h4>5:30 PM</h4>
+          <p>Reception Program</p>
+        </div>
+      </div>
+      <div class="program-item" data-aos="fade-left">
+        <div class="content">
+          <h4>6:00 PM</h4>
+          <p>Dinner</p>
+        </div>
+      </div>
+      <div class="program-item" data-aos="fade-right">
+        <div class="content">
+          <h4>8:30 PM onwards</h4>
+          <p>After Party</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- RSVP -->
   <section class="section section-dark" id="rsvp">
-    <h2 data-aos="fade-up">RSVP</h2>
+    <h2 data-aos="fade-up">Kindly RSVP</h2>
     <form class="invitation-box" data-aos="zoom-in">
-      <p>Please let us know if you’ll be able to join us.</p>
-      <input type="text" placeholder="Your Name" required style="padding:0.5rem; width:80%; margin:0.5rem 0;"><br>
-      <select required style="padding:0.5rem; width:80%; margin:0.5rem 0;">
+      <p>Please confirm your attendance by <strong>November 8, 2025</strong>.</p>
+      <input type="text" placeholder="Your Name" required><br>
+      <select required>
         <option value="">Will you attend?</option>
         <option value="yes">Yes, I’ll be there</option>
         <option value="no">Sorry, I can’t make it</option>
@@ -387,24 +316,18 @@
     </form>
   </section>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer class="footer section-dark">
-    <div class="container" data-aos="fade-in">
-      <p>With love, Fritz & Joana</p>
-      <p>#FinallyFritzAndJoana</p>
-    </div>
+    <p>With love, Fritz & Joana</p>
+    <p>#FinallyFritzAndJoana</p>
   </footer>
 
-  <!-- JavaScript -->
+  <!-- JS -->
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script>
-    AOS.init({
-      once: true,
-      duration: 1000,
-      easing: 'ease-in-out',
-    });
+    AOS.init({ once:true, duration:1000, easing:'ease-in-out' });
 
-    // Countdown Timer
+    // Countdown
     const targetDate = new Date("November 28, 2025 14:00:00").getTime();
     const daysEl = document.getElementById("days");
     const hoursEl = document.getElementById("hours");
@@ -414,38 +337,19 @@
     setInterval(() => {
       const now = new Date().getTime();
       const distance = targetDate - now;
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      daysEl.textContent = days;
-      hoursEl.textContent = hours;
-      minutesEl.textContent = minutes;
-      secondsEl.textContent = seconds;
+      const days = Math.floor(distance/(1000*60*60*24));
+      const hours = Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+      const minutes = Math.floor((distance%(1000*60*60))/(1000*60));
+      const seconds = Math.floor((distance%(1000*60))/1000);
+      daysEl.textContent = days; hoursEl.textContent = hours;
+      minutesEl.textContent = minutes; secondsEl.textContent = seconds;
     }, 1000);
 
-    // Change nav style on scroll
+    // Nav scroll style
     window.addEventListener("scroll", () => {
-      const nav = document.querySelector(".main-nav");
-      if (window.scrollY > 50) {
-        nav.classList.add("scrolled");
-      } else {
-        nav.classList.remove("scrolled");
-      }
-    });
-
-    // Smooth navigation
-    document.querySelectorAll('.main-nav a').forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href');
-        const target = document.querySelector(targetId);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
+      const nav=document.querySelector(".main-nav");
+      if(window.scrollY>50){ nav.classList.add("scrolled"); }
+      else{ nav.classList.remove("scrolled"); }
     });
   </script>
 </body>
