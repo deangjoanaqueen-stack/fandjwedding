@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Fritz & Joana | Wedding Invitation</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Cormorant+Garamond:wght@400;600&family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -17,6 +16,10 @@
       --overlay: rgba(0,0,0,0.45);
       --gold:#d4af37;
       --petal: rgba(255,255,255,0.95);
+      /* Polaroid Color */
+      --polaroid-frame: #fcfcfc;
+      --polaroid-shadow: rgba(0,0,0,0.5);
+      --emerald: #047857; /* Emerald Green */
     }
 
     /* base */
@@ -62,7 +65,7 @@
 
     /* falling petals container */
     .petals{
-      pointer-events:none; position:absolute; inset:0; z-index:5; overflow:hidden;
+      pointer-events:none; position:absolute; inset:0; z-index:5; overflow:visible;
     }
     .petal{
       position:absolute; width:28px; height:28px; background: radial-gradient(circle at 40% 30%, rgba(255,255,255,0.95) 0 40%, rgba(255,255,255,0.85) 41% 60%, rgba(255,255,255,0.7) 61% 100%);
@@ -73,7 +76,6 @@
       will-change: transform, top, left, opacity;
       animation: fall linear infinite, sway ease-in-out infinite;
     }
-    /* create subtle differences using nth-child rules in inline CSS later, but default animations: */
     @keyframes fall{
       from{ transform: translateY(-10vh) rotate(0deg); opacity:1 }
       to{ transform: translateY(110vh) rotate(360deg); opacity:0.85 }
@@ -84,79 +86,190 @@
       100%{ transform: translateX(0) rotate(0deg) }
     }
 
-    /* initials (center behind names) */
+    /* initials (center behind names) - SHIMMER/PULSE EFFECT */
     .hero-initials{
       position:absolute; z-index:2; left:50%; top:48%;
       transform:translate(-50%,-50%); font-family:'Great Vibes',cursive;
       font-size:12rem; color:var(--gold); opacity:0; pointer-events:none;
       mix-blend-mode:screen; text-shadow: 0 2px 6px rgba(0,0,0,0.25);
-      animation: initialsFade 2.6s cubic-bezier(.2,.9,.3,1) forwards;
+      animation: initialsFade 2.6s cubic-bezier(.2,.9,.3,1) forwards,
+                 initialsPulse 4s infinite 3s; 
     }
     @keyframes initialsFade{
       from{opacity:0; transform:translate(-50%,-50%) scale(.92)}
       to{opacity:.18; transform:translate(-50%,-50%) scale(1)}
     }
+    @keyframes initialsPulse{
+        0%, 100% { opacity: 0.18; text-shadow: 0 0 10px rgba(255, 215, 0, 0); }
+        50% { opacity: 0.25; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+    }
 
     /* hero content */
-    .hero-content{ position:relative; z-index:10; color:var(--white); max-width:920px; padding:2rem }
-    .hero h1{ font-family:'Great Vibes',cursive; font-size:3.8rem; margin:0; color:var(--gold); text-shadow:0 6px 18px rgba(0,0,0,0.45) }
+    .hero-content{ position:relative; z-index:10; color:var(--white); max-width:2000px; padding:2rem }
+    .hero h1 {font-family: 'Great Vibes', cursive;font-size: 10rem;margin: 0;color: var(--gold);text-shadow: 0 0 12px rgba(255, 215, 0, 0.6),0 0 24px rgba(0, 0, 0, 0.3);      }
     .hero h2{ font-family:'Cormorant Garamond',serif; font-size:1.6rem; margin:.25rem 0 6px; font-weight:600; color:#fff; opacity:.95 }
     .hero h3{ font-family:'Montserrat',sans-serif; font-size:1rem; font-weight:300; opacity:.95; margin:0 0 14px }
 
     /* countdown */
-    .countdown{ display:flex; gap:1rem; justify-content:center; margin-top:1rem }
-    .time-unit{ background: rgba(255,255,255,0.06); padding:.7rem 1rem; border-radius:10px; min-width:70px; }
-    .time-value{ font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:700; color:var(--white) }
-    .time-label{ font-size:.76rem; color:rgba(255,255,255,0.85) }
+    .countdown{ display:flex; gap:1rem; justify-content:center; margin-top:1rem; flex-wrap:wrap }
+    .time-unit{ background: rgba(255,255,255,0.06); padding:.7rem 1rem; border-radius:10px; min-width:110px; text-align:center; }
+    .time-value{ 
+        font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:700; color:var(--green-light);
+        /* New animation for a subtle tick/pop effect */
+        animation: time-pop 1s ease-out infinite; 
+    }
+    @keyframes time-pop {
+        0% { transform: scale(1); opacity: 1; }
+        2% { transform: scale(1.05); opacity: 0.8; }
+        5% { transform: scale(1); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    /* Apply staggered delays to time units */
+    #seconds { animation-name: time-pop; }
+    #minutes { animation-name: time-pop; animation-delay: 60s; }
+    #hours { animation-name: time-pop; animation-delay: 3600s; }
+    #days { animation-name: time-pop; animation-delay: 86400s; }
 
     /* Section base */
     .section{ padding:4.5rem 1.5rem; position:relative }
     .section h2{ text-align:center; font-family:'Great Vibes',cursive; font-size:2.4rem; margin-bottom:1.2rem; color:var(--gold) }
 
+    /* Invitation Section Specific Styles */
+    #invitation-content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.98);
+        color: var(--green-dark);
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        text-align: center;
+    }
+    #invitation-content h3 {
+        font-family: 'Great Vibes', cursive;
+        font-size: 2rem;
+        color: var(--emerald);
+        margin-bottom: 0.5rem;
+    }
+    #invitation-content p {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+    .location-details {
+        font-weight: 600;
+        margin-top: 1.5rem;
+        padding: 1rem 0;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+
     /* story */
     .story-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:1.2rem; max-width:1100px; margin:0 auto; }
     .story-card{ background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); padding:1.2rem 1.3rem; border-radius:14px; box-shadow: 0 8px 30px rgba(0,0,0,0.2) }
+    .story-card img{ 
+        width:100%; height:auto; 
+        border-radius:8px; display:block; 
+        margin-bottom:10px; object-fit:cover;
+        /* Subtle hover effect for story images */
+        transition: transform 0.3s ease-in-out;
+    }
+    .story-card:hover img {
+        transform: scale(1.02);
+    }
 
-    /* GALLERY - hanging style */
+    /* --- GALLERY - POLAROID STYLE --- */
     .gallery-wrap{ max-width:1000px; margin:0 auto; display:flex; flex-direction:column; gap:1rem; align-items:center; }
     .gallery-stage{ width:100%; overflow:hidden; position:relative }
     .slides{ display:flex; transition: transform 900ms cubic-bezier(.2,.9,.3,1); gap:6%; padding:2% 3%; align-items:flex-start }
+    
     .slides .hang{
-      width:320px; flex:0 0 320px; background:transparent; display:flex; flex-direction:column; align-items:center;
+      width:240px; 
+      flex:0 0 240px; 
+      background:transparent; 
+      display:flex; 
+      flex-direction:column; 
+      align-items:center;
       transform-origin: top center;
+    }
+    
+    .polaroid-frame{ 
+      width: 100%;
+      padding: 10px 10px 30px 10px; 
+      background-color: var(--polaroid-frame);
+      box-shadow: 0 12px 30px var(--polaroid-shadow);
+      position: relative; 
+      margin-top: 12px;
+      border-radius: 2px;
+      transition: transform 450ms ease, box-shadow 300ms ease;
     }
 
     .photo{
-      width:300px; height:200px; background-size:cover; background-position:center; border-radius:10px;
-      box-shadow: 0 14px 30px rgba(3,10,6,0.45); position:relative; margin-top:12px;
-      transition: transform 450ms ease, box-shadow 300ms ease;
+      width: 100%; 
+      height: 180px; 
+      background-size:cover; 
+      background-position:center; 
+      display:block;
+      border-radius: 1px; 
     }
-    /* decorative hanger */
+
+    .caption{
+      color: var(--emerald); /* Emerald Green applied */
+      font-weight: bold; /* Bold applied */
+      font-size: 0.75rem;
+      font-style: italic;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Decorative Hanger (Wire/String Look) */
     .hanger{
-      width:2px; height:40px; background:linear-gradient(180deg,#fff,#fff0); opacity:.95; position:relative;
-      margin-top:8px;
+      width: 100%;
+      height: 0px; 
+      border-top: 1px dashed rgba(255,255,255,0.5); 
+      opacity: .95; 
+      position: relative;
+      margin-top: 20px; 
     }
-    .hanger::before{
-      content:""; width:12px; height:12px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);
-      display:block; transform: translateY(-7px); margin: 0 auto; background:transparent;
+
+    /* Small Pin/Clip */
+    .polaroid-frame::before{
+      content: "";
+      position: absolute;
+      top: -10px; 
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 6px rgba(0,0,0,0.5);
+      z-index: 10;
     }
-    /* swing animation applied to each hanging block */
-    .hang.s1{ animation: swing 6s ease-in-out infinite; transform-origin: top center; }
-    .hang.s2{ animation: swing 5.3s ease-in-out infinite; transform-origin: top center; animation-delay:.2s }
-    .hang.s3{ animation: swing 6.8s ease-in-out infinite; animation-delay:.5s }
-    .hang.s4{ animation: swing 5.8s ease-in-out infinite; animation-delay: .1s }
+    
+    /* Random Initial Rotation & Swing Animation */
+    .hang.s1{ transform: rotate(var(--initial-rot, -3deg)); animation: swing 6s ease-in-out infinite; transform-origin: top center; }
+    .hang.s2{ transform: rotate(var(--initial-rot, 1deg)); animation: swing 5.3s ease-in-out infinite; transform-origin: top center; animation-delay:.2s }
+    .hang.s3{ transform: rotate(var(--initial-rot, -5deg)); animation: swing 6.8s ease-in-out infinite; animation-delay:.5s }
+    .hang.s4{ transform: rotate(var(--initial-rot, 2deg)); animation: swing 5.8s ease-in-out infinite; animation-delay: .1s }
 
     @keyframes swing{
-      0%{ transform: rotate(-2deg) }
-      50%{ transform: rotate(3deg) }
-      100%{ transform: rotate(-2deg) }
+      0%{ transform: rotate(var(--initial-rot, -2deg)) } 
+      50%{ transform: rotate(calc(var(--initial-rot, -2deg) + 5deg)) } 
+      100%{ transform: rotate(var(--initial-rot, -2deg)) } 
     }
-    .photo:hover{ transform: translateY(-6px) scale(1.03); box-shadow: 0 20px 40px rgba(0,0,0,0.4) }
-
+    
+    .polaroid-frame:hover{ 
+      transform: translateY(-6px) scale(1.03) rotate(0deg); 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+    }
+    
     /* gallery controls */
     .gallery-controls{ width:100%; display:flex; justify-content:space-between; align-items:center; gap:10px; max-width:1000px; margin:0 auto; padding:0 2% }
     .gbtn{ background:rgba(0,0,0,0.45); color:var(--white); border:none; font-size:1.4rem; padding:.55rem .85rem; border-radius:10px; cursor:pointer }
     .gbtn:active{ transform:scale(.98) }
+    /* --- END GALLERY STYLES --- */
 
     /* celebration & program list */
     .celebration-grid{ display:flex; flex-wrap:wrap; gap:1.2rem; justify-content:center; align-items:flex-start; max-width:1000px; margin:0 auto; }
@@ -171,6 +284,7 @@
     .program-item .dot{
       width:48px; height:48px; border-radius:12px; background:linear-gradient(180deg,var(--white), #f7f7f7); display:flex; align-items:center; justify-content:center; flex-shrink:0;
       box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+      transition: transform .18s ease;
     }
     .program-item .time{ font-weight:700; font-family:'Cormorant Garamond',serif; color:var(--green-dark) }
     .program-item .label{ font-size:.98rem; opacity:.95; font-family:'Montserrat',sans-serif; color:rgba(255,255,255,0.95) }
@@ -194,6 +308,15 @@
     .rsvp-card p{ margin:.2rem 0 12px; color:rgba(0,0,0,0.6) }
 
     .rsvp-input{ width:92%; padding:.65rem; margin:.45rem 0; border-radius:10px; border:1px solid rgba(45,106,79,0.12); font-size:1rem }
+    
+    /* HANDWRITTEN FONT STYLE FOR TEXTAREA */
+    #rsvpMsg {
+        font-family: 'Caveat', cursive; 
+        font-size: 1.2rem; 
+        color: var(--green-dark); 
+        font-weight: 500;
+    }
+
     .rsvp-submit{ background:linear-gradient(90deg,var(--green-light), #c1e6c9); color:var(--green-dark); border:none; padding:.7rem 1.05rem; border-radius:30px; cursor:pointer; font-weight:700; box-shadow:0 8px 20px rgba(43,100,66,0.14) }
 
     /* footer */
@@ -204,8 +327,9 @@
       .hero h1{ font-size:2.6rem }
       .hero-initials{ font-size:8.2rem }
       .slides{ gap:8% }
-      .slides .hang{ width:240px; flex:0 0 240px }
-      .photo{ width:220px; height:150px }
+      .slides .hang{ width:200px; flex:0 0 200px }
+      .polaroid-frame{ padding: 8px 8px 24px 8px; }
+      .photo{ height: 140px }
       .program-list{ width:100% }
       .timeline{ order:2 }
     }
@@ -215,33 +339,33 @@
       .hero h2{ font-size:1.05rem }
       .hero-initials{ font-size:6rem }
       .slides{ padding:3% 4% }
-      .slides .hang{ width:200px; flex:0 0 200px }
-      .photo{ width:180px; height:130px }
+      .slides .hang{ width:160px; flex:0 0 160px }
+      .polaroid-frame{ padding: 6px 6px 20px 6px; }
+      .photo{ height: 110px }
+      .time-unit { min-width:80px; padding:.5rem .6rem; }
+      .time-value{ font-size:1.4rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- nav -->
   <nav class="main-nav" id="nav">
     <ul>
       <li><a href="#home" class="nav-link active">Home</a></li>
-      <li><a href="#story" class="nav-link">Our Story</a></li>
+      <li><a href="#invitation" class="nav-link">Invitation</a></li> <li><a href="#story" class="nav-link">Our Story</a></li>
       <li><a href="#gallery" class="nav-link">Gallery</a></li>
       <li><a href="#celebration" class="nav-link">The Celebration</a></li>
       <li><a href="#rsvp" class="nav-link">RSVP</a></li>
     </ul>
   </nav>
 
-  <!-- petals (will be filled by JS) -->
   <div class="petals" aria-hidden="true"></div>
 
-  <!-- HERO -->
   <header class="hero" id="home" role="banner">
     <div class="hero-initials">F &amp; J</div>
 
     <div class="hero-content" role="main" aria-labelledby="hero-title">
-      <h1 id="hero-title">Fritz &amp; Joana</h1>
+      <h1 style="font-size:100px" id="hero-title">Fritz Bernard &amp; Joana Queen</h1>
       <h2>We're getting married!</h2>
       <h3>November 28, 2025 &nbsp;•&nbsp; Dumaguete City</h3>
 
@@ -251,75 +375,230 @@
         <div class="time-unit"><div class="time-value" id="minutes">00</div><div class="time-label">Minutes</div></div>
         <div class="time-unit"><div class="time-value" id="seconds">00</div><div class="time-label">Seconds</div></div>
       </div>
+      <h2 id="countdownStatus">Until we say "I DO"</h2>
     </div>
   </header>
 
-  <!-- STORY -->
-  <section class="section section-dark" id="story">
-    <h2>Our Journey</h2>
-    <div class="story-grid">
-      <div class="story-card">
-        <h3 style="font-family:'Cormorant Garamond',serif;">How We Met</h3>
-        <p>It all started with a smile that blossomed into forever — coffee, conversations, and shared sunsets in Dumaguete.</p>
-      </div>
-      <div class="story-card">
-        <h3 style="font-family:'Cormorant Garamond',serif;">Adventures</h3>
-        <p>From islands to late-night talks, every trip brought us closer — and we can't wait to celebrate with you.</p>
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Invitation | Passbook Style</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #f8f5f0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    section#invitation {
+      text-align: center;
+    }
+
+    h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #6b4e3d;
+    }
+
+    /* Flipbook Container */
+    .flipbook {
+      width: 600px;
+      height: 400px;
+      perspective: 2000px;
+      margin: auto;
+    }
+
+    .book {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 1s;
+      cursor: pointer;
+    }
+
+    .page {
+      width: 50%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      overflow: hidden;
+      backface-visibility: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      border-radius: 8px;
+    }
+
+    .page img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .left {
+      left: 0;
+      transform-origin: left center;
+    }
+
+    .right {
+      right: 0;
+      transform-origin: right center;
+      transform: rotateY(180deg);
+    }
+
+    .book.open {
+      transform: rotateY(-180deg);
+    }
+  </style>
+</head>
+<body>
+  <section class="section section-light" id="invitation">
+    <h2>Official Invitation</h2>
+
+    <div class="flipbook" onclick="this.querySelector('.book').classList.toggle('open')">
+      <div class="book">
+        
+        <!-- Left Page (Cover) -->
+        <div class="page left">
+          <img src="cover.jpg" alt="Invitation Cover">
+        </div>
+        
+        <!-- Right Page (Inside) -->
+        <div class="page right">
+          <img src="page1.jpg" alt="Invitation Inside">
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- GALLERY -->
+  <section class="section section-dark" id="story">
+    <h2>Our Journey</h2>
+
+    <div class="story-grid" style="margin-top:40px;">
+      <div class="story-card">
+        <img src="college day.jpg" alt="College Days">
+        <img src="college days.jpg" alt="College Days">
+        <h3>College Days</h3>
+        <p>In college, they were just two faces in the same class photos—Fritz always ending up behind Joana—but they never really spoke. Life moved forward, each with their own paths.</p>
+      </div>
+
+      <div class="story-card">
+        <img src="8R302075 (61).jpg" alt="Fate Reunited">
+        <h3>Fate Brings Us Back</h3>
+        <p>Years later, after long relationships and single seasons, fate found its way back into their story. A simple Instagram reply became the spark that changed everything.</p>
+      </div>
+
+      <div class="story-card">
+        <img src="8R302075 (112).jpg" alt="Adventures Together">
+        <h3>Adventures Together</h3>
+        <p>From island trips to late-night talks, every adventure brought them closer. Each laugh and every shared moment became the building blocks of something special.</p>
+      </div>
+
+      <div class="story-card">
+        <img src="the yes.jpg" alt="The Proposal">
+        <h3>The Proposal</h3>
+        <p>By December 2024, Fritz could no longer hold back. In the most unplanned and unexpected moment, he proposed. Not grand, not scripted, but perfectly them.</p>
+      </div>
+    </div>
+  </section>
+
+
   <section class="section section-light" id="gallery">
     <h2>Captured Moments</h2>
 
     <div class="gallery-wrap">
       <div class="gallery-stage">
-        <div class="slides" id="slides">
-          <!-- Each hang block contains the hanger + photo. Use classes s1..s4 to slightly vary swing -->
-          <div class="hang s1">
-            <div class="hanger"></div>
-            <div class="photo" style="background-image:url('8R302075 (29).jpg');"></div>
+        <div class="slides" id="slides" aria-live="polite" aria-label="Photo gallery">
+          <div class="hang s1" role="group" aria-label="Photo 1" style="--initial-rot: -3deg;">
+            <div class="hanger" aria-hidden="true"></div>
+            <div class="polaroid-frame">
+              <div class="photo" style="background-image:url('8R302075 (29).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
+              <div class="caption">Happy</div>
+            </div>
           </div>
 
-          <div class="hang s2">
-            <div class="hanger"></div>
-            <div class="photo" style="background-image:url('8R302075 (38).jpg');"></div>
+          <div class="hang s2" role="group" aria-label="Photo 2" style="--initial-rot: 1deg;">
+            <div class="hanger" aria-hidden="true"></div>
+            <div class="polaroid-frame">
+              <div class="photo" style="background-image:url('8R302075 (38).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
+              <div class="caption">Ever</div>
+            </div>
           </div>
 
-          <div class="hang s3">
-            <div class="hanger"></div>
-            <div class="photo" style="background-image:url('8R302075 (57).jpg');"></div>
+          <div class="hang s3" role="group" aria-label="Photo 3" style="--initial-rot: -5deg;">
+            <div class="hanger" aria-hidden="true"></div>
+            <div class="polaroid-frame">
+              <div class="photo" style="background-image:url('8R302075 (57).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
+              <div class="caption">After</div>
+            </div>
           </div>
 
-          <div class="hang s4">
-            <div class="hanger"></div>
-            <div class="photo" style="background-image:url('8R302075 (6).jpg');"></div>
+          <div class="hang s4" role="group" aria-label="Photo 4" style="--initial-rot: 2deg;">
+            <div class="hanger" aria-hidden="true"></div>
+            <div class="polaroid-frame">
+              <div class="photo" style="background-image:url('8R302075 (6).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
+              <div class="caption">Begins</div>
+            </div>
           </div>
+          
+          <div class="hang s1" role="group" aria-label="Photo 5" style="--initial-rot: -1deg;">
+            <div class="hanger" aria-hidden="true"></div>
+            <div class="polaroid-frame">
+              <div class="photo" style="background-image:url('8R302075 (70).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
+              <div class="caption">With</div>
+            </div>
+          </div>
+
+          <div class="hang s2" role="group" aria-label="Photo 6" style="--initial-rot: 4deg;">
+            <div class="hanger" aria-hidden="true"></div>
+            <div class="polaroid-frame">
+              <div class="photo" style="background-image:url('8R302075 (109).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
+              <div class="caption">Saying</div>
+            </div>
+          </div>
+
+          <div class="hang s3" role="group" aria-label="Photo 7" style="--initial-rot: -2deg;">
+            <div class="hanger" aria-hidden="true"></div>
+            <div class="polaroid-frame">
+              <div class="photo" style="background-image:url('8R302075 (112).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
+              <div class="caption">"I</div>
+            </div>
+          </div>
+
+          <div class="hang s3" role="group" aria-label="Photo 8" style="--initial-rot: -2deg;">
+            <div class="hanger" aria-hidden="true"></div>
+            <div class="polaroid-frame">
+              <div class="photo" style="background-image:url('8R302075 (89).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
+              <div class="caption">Do"!</div>
+            </div>
+          </div>
+
         </div>
       </div>
 
       <div class="gallery-controls" aria-hidden="false">
         <button class="gbtn" id="prevBtn" aria-label="Previous photo">&larr;</button>
-        <div style="flex:1"></div>
+        <div style="flex:1" aria-hidden="true"></div>
         <button class="gbtn" id="nextBtn" aria-label="Next photo">&rarr;</button>
       </div>
     </div>
   </section>
 
-  <!-- CELEBRATION -->
   <section class="section section-dark" id="celebration">
     <h2>The Celebration</h2>
 
     <div class="celebration-grid">
-      <!-- program list -->
       <aside class="program-list" aria-label="Program list">
         <h4 style="margin-bottom:.6rem; color:var(--white)">Program of Activities</h4>
         <ul class="program-items" id="programList">
-          <!-- Each list item includes a small doodle SVG that animates. Clicking scrolls to the corresponding timeline card. -->
-          <li class="program-item" data-target="t1">
-            <div class="dot">
-              <!-- floral doodle -->
+          <li class="program-item" data-target="t1" tabindex="0" role="button" aria-pressed="false">
+            <div class="dot" aria-hidden="true">
               <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 2C13 5 16 5 18 7C14 9 14 12 12 15C10 12 10 9 6 7C8 5 11 5 12 2Z" stroke="#2b6a45" stroke-width="0.9" fill="#fff"/>
               </svg>
@@ -330,8 +609,8 @@
             </div>
           </li>
 
-          <li class="program-item" data-target="t2">
-            <div class="dot">
+          <li class="program-item" data-target="t2" tabindex="0" role="button" aria-pressed="false">
+            <div class="dot" aria-hidden="true">
               <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 3C8 3 9.5 5 12 6C14.5 5 16 3 18 3C16 6 13 7 12 10C11 7 8 6 6 3Z" stroke="#2b6a45" stroke-width="0.9" fill="#fff"/>
               </svg>
@@ -342,8 +621,8 @@
             </div>
           </li>
 
-          <li class="program-item" data-target="t3">
-            <div class="dot">
+          <li class="program-item" data-target="t3" tabindex="0" role="button" aria-pressed="false">
+            <div class="dot" aria-hidden="true">
               <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="8" r="3" fill="#fff" stroke="#2b6a45" stroke-width="0.9"/>
               </svg>
@@ -354,8 +633,8 @@
             </div>
           </li>
 
-          <li class="program-item" data-target="t4">
-            <div class="dot">
+          <li class="program-item" data-target="t4" tabindex="0" role="button" aria-pressed="false">
+            <div class="dot" aria-hidden="true">
               <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="6" y="4" width="12" height="6" rx="2" fill="#fff" stroke="#2b6a45" stroke-width="0.9"/>
               </svg>
@@ -366,8 +645,8 @@
             </div>
           </li>
 
-          <li class="program-item" data-target="t5">
-            <div class="dot">
+          <li class="program-item" data-target="t5" tabindex="0" role="button" aria-pressed="false">
+            <div class="dot" aria-hidden="true">
               <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 12C6 10 9 11 12 8C15 11 18 10 20 12" stroke="#2b6a45" stroke-width="0.9" fill="#fff"/>
               </svg>
@@ -378,8 +657,8 @@
             </div>
           </li>
 
-          <li class="program-item" data-target="t6">
-            <div class="dot">
+          <li class="program-item" data-target="t6" tabindex="0" role="button" aria-pressed="false">
+            <div class="dot" aria-hidden="true">
               <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 9C8 5 16 5 18 9" stroke="#2b6a45" stroke-width="0.9" fill="#fff"/>
               </svg>
@@ -392,7 +671,6 @@
         </ul>
       </aside>
 
-      <!-- timeline / anchor cards -->
       <div class="timeline" id="timeline">
         <div class="time-card" id="t1">
           <h4 style="margin:0 0 6px;">Church Ceremony</h4>
@@ -428,266 +706,293 @@
     </div>
   </section>
 
-  <!-- RSVP -->
-<section class="section section-light" id="rsvp">
-  <h2>Kindly RSVP</h2>
-  <div class="rsvp-container" style="padding-top:10px; padding-bottom:10px;">
-    <div class="rsvp-card" role="form" aria-labelledby="rsvp-title">
-      <h2 id="rsvp-title">Will you celebrate with us?</h2>
-      <p>Please confirm attendance by <strong>November 8, 2025</strong>.</p>
+  <section class="section section-light" id="rsvp">
+    <h2>Kindly RSVP</h2>
+    <div class="rsvp-container" style="padding-top:10px; padding-bottom:10px;">
+      <div class="rsvp-card" role="form" aria-labelledby="rsvp-title">
+        <h2 id="rsvp-title">Will you celebrate with us?</h2>
+        <p>Please confirm attendance by **November 8, 2025**.</p>
 
-      <form id="rsvpForm" onsubmit="event.preventDefault(); handleRSVP();">
-        <input class="rsvp-input" id="rsvpName" type="text" placeholder="Your full name" required />
-        <br />
-        <select class="rsvp-input" id="rsvpAttend" required>
-          <option value="" disabled selected hidden>Will you attend?</option>
-          <option value="yes">Yes — I'll be there</option>
-          <option value="no">Sorry — can't make it</option>
-        </select>
-        <br />
-        <textarea id="rsvpMsg" class="rsvp-input" rows="3" placeholder="A short message (optional)"></textarea>
-        <br />
-        <button class="rsvp-submit" type="submit">Send RSVP</button>
-      </form>
+        <form id="rsvpForm" novalidate>
+          <input class="rsvp-input" id="rsvpName" type="text" placeholder="Your full name" required />
+          <br />
+          <select class="rsvp-input" id="rsvpAttend" required>
+            <option value="" disabled selected hidden>Will you attend?</option>
+            <option value="yes">Yes — I'll be there</option>
+            <option value="no">Sorry — can't make it</option>
+          </select>
+          <br />
+          <textarea id="rsvpMsg" class="rsvp-input" rows="3" placeholder="Got a wish or advice? Write it here:"></textarea>
+          <br />
+          <button class="rsvp-submit" type="submit">Send</button>
+        </form>
 
-      <div id="rsvpThanks" style="display:none; margin-top:12px; color:var(--green-dark)"></div>
+        <div id="rsvpThanks" style="display:none; margin-top:12px; color:var(--green-dark)"></div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<style>
-  /* make the placeholder grey */
-  #rsvpAttend option[disabled] {
-    color: #888; /* grey color */
-  }
-</style>
+  <style>
+    /* make the placeholder grey */
+    #rsvpAttend option[disabled] {
+      color: #888; /* grey color */
+    }
+  </style>
 
 
-  <!-- footer -->
   <footer>
     <p style="margin:0 .2rem;">With love, Fritz &amp; Joana</p>
     <small style="opacity:.9; display:block; margin-top:.6rem">#FinallyFritzAndJoana</small>
   </footer>
 
-  <!-- JS -->
   <script>
     /*********************
-     * Petals generator
-     *********************/
+      * Petals generator
+      *********************/
     (function createPetals(){
-      const container = document.querySelector('.petals');
-      const count = 16; // number of petals
-      for(let i=0;i<count;i++){
-        const el = document.createElement('div');
-        el.className = 'petal';
-        // random position start across width, stagger top, duration and delay
-        const left = Math.random()*100; // vw percent
-        const size = 16 + Math.random()*28; // px
-        el.style.width = size + 'px';
-        el.style.height = Math.round(size * 0.85) + 'px';
-        el.style.left = left + 'vw';
-        el.style.top = (-10 - Math.random()*20) + 'vh';
-        // duration vary 6s-14s
-        const dur = 7 + Math.random()*10;
-        el.style.animationDuration = dur + 's, ' + (4 + Math.random()*4) + 's';
-        el.style.animationDelay = (Math.random()*-6) + 's';
-        // slightly vary opacity & rotation
-        el.style.opacity = 0.7 + Math.random()*0.25;
-        el.style.transform = 'rotate(' + (Math.random()*40 - 20) + 'deg)';
-        container.appendChild(el);
-      }
-    })();
-
-    /*********************
-     * Countdown
-     *********************/
-    (function countDown(){
-      // Target date/time in local timezone
-      const target = new Date("November 28, 2025 14:00:00").getTime();
-      const dEl = document.getElementById('days'), hEl = document.getElementById('hours'), mEl = document.getElementById('minutes'), sEl = document.getElementById('seconds');
-
-      function tick(){
-        const now = Date.now();
-        const dist = target - now;
-        if(dist <= 0){
-          dEl.textContent = '00'; hEl.textContent='00'; mEl.textContent='00'; sEl.textContent='00';
-          clearInterval(interval);
-          return;
+      try {
+        const container = document.querySelector('.petals');
+        if(!container) return;
+        const count = 16; 
+        for(let i=0;i<count;i++){
+          const el = document.createElement('div');
+          el.className = 'petal';
+          const left = Math.random()*100; 
+          const size = 16 + Math.random()*28; 
+          el.style.width = size + 'px';
+          el.style.height = Math.round(size * 0.85) + 'px';
+          el.style.left = left + 'vw';
+          el.style.top = (-10 - Math.random()*20) + 'vh';
+          const dur = 7 + Math.random()*10;
+          el.style.animationDuration = dur + 's, ' + (4 + Math.random()*4) + 's';
+          el.style.animationDelay = (Math.random()*-6) + 's';
+          el.style.opacity = 0.7 + Math.random()*0.25;
+          el.style.transform = 'rotate(' + (Math.random()*40 - 20) + 'deg)';
+          el.style.left = `calc(${left}vw + ${Math.random()*6 - 3}px)`;
+          container.appendChild(el);
         }
-        const days = Math.floor(dist/(1000*60*60*24));
-        const hours = Math.floor((dist%(1000*60*60*24))/(1000*60*60));
-        const mins = Math.floor((dist%(1000*60*60))/(1000*60));
-        const secs = Math.floor((dist%(1000*60))/1000);
-        dEl.textContent = String(days).padStart(2,'0');
-        hEl.textContent = String(hours).padStart(2,'0');
-        mEl.textContent = String(mins).padStart(2,'0');
-        sEl.textContent = String(secs).padStart(2,'0');
+      } catch(e){
+        console.error('Petals generator error', e);
       }
-      tick();
-      const interval = setInterval(tick,1000);
     })();
 
     /*********************
-     * nav active state & scroll
-     *********************/
+      * Countdown
+      *********************/
+    (function countDown(){
+      try {
+        const target = new Date("November 28, 2025 14:00:00").getTime();
+        const dEl = document.getElementById('days'), hEl = document.getElementById('hours'), mEl = document.getElementById('minutes'), sEl = document.getElementById('seconds');
+        const status = document.getElementById('countdownStatus');
+        if(!dEl || !hEl || !mEl || !sEl || !status) return;
+
+        function formatNumber(n){
+          return String(n).padStart(2,'0');
+        }
+
+        function tick(){
+          const now = Date.now();
+          const dist = target - now;
+          if(dist <= 0){
+            dEl.textContent = '00';
+            hEl.textContent = '00';
+            mEl.textContent = '00';
+            sEl.textContent = '00';
+            status.textContent = "We're married! 🎉";
+            if(interval) clearInterval(interval);
+            return;
+          }
+          const days = Math.floor(dist/(1000*60*60*24));
+          const hours = Math.floor((dist%(1000*60*60*24))/(1000*60*60));
+          const mins = Math.floor((dist%(1000*60*60))/(1000*60));
+          const secs = Math.floor((dist%(1000*60))/1000);
+          dEl.textContent = formatNumber(days);
+          hEl.textContent = formatNumber(hours);
+          mEl.textContent = formatNumber(mins);
+          sEl.textContent = formatNumber(secs);
+        }
+        let interval = null;
+        tick();
+        interval = setInterval(tick,1000);
+      } catch(e){
+        console.error('Countdown error', e);
+      }
+    })();
+
+    /*********************
+      * nav active state & scroll
+      *********************/
     (function navWatch(){
-      const links = document.querySelectorAll('.nav-link');
-      const sections = Array.from(links).map(l => document.querySelector(l.getAttribute('href')));
-      const nav = document.querySelector('.main-nav');
+      try {
+        const nav = document.querySelector('.main-nav');
+        const linkNodes = Array.from(document.querySelectorAll('.nav-link'));
+        const pairs = linkNodes.map(l => ({ link: l, section: document.querySelector(l.getAttribute('href')) }))
+                               .filter(p => p.section);
 
-      function onScroll(){
-        const fromTop = window.scrollY + 90; // offset to trigger earlier
-        // toggle nav scrolled style
-        if(window.scrollY > 40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+        function onScroll(){
+          const fromTop = window.scrollY + 90;
+          if(window.scrollY > 40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
 
-        sections.forEach((sec,i)=>{
-          if(!sec) return;
-          const top = sec.offsetTop;
-          const bottom = top + sec.offsetHeight;
-          if(fromTop >= top && fromTop < bottom){
-            links.forEach(x => x.classList.remove('active'));
-            links[i].classList.add('active');
-          }
-        });
-      }
-      window.addEventListener('scroll', onScroll, {passive:true});
-      onScroll();
-      // enable smooth scroll offset for older browsers
-      links.forEach(a => {
-        a.addEventListener('click', (e)=>{
-          links.forEach(x=>x.classList.remove('active'));
-          a.classList.add('active');
-        });
-      });
-    })();
-
-    /*********************
-     * Gallery slider (with hanging animation preserved)
-     *********************/
-    (function gallery(){
-      const slides = document.getElementById('slides');
-      const hangs = slides.querySelectorAll('.hang');
-      const prev = document.getElementById('prevBtn');
-      const next = document.getElementById('nextBtn');
-      let index = 0;
-      const perView = 1; // we show one hanging item focus, slides are flexible width with gap
-      // compute slide width shift: we will translate by (itemWidth + gap) * i
-      function update(){
-        // get first hang width + gap approximate
-        const w = hangs[0].getBoundingClientRect().width;
-        const gap =  (slides.getBoundingClientRect().width - (hangs.length * w)) / (hangs.length - 1 || 1);
-        // Since we used percent paddings and gaps, simpler: translate by (index*(w + 0.06*slidesWidth))
-        const shift = (index*(w + (slides.getBoundingClientRect().width * 0.06)));
-        slides.style.transform = `translateX(${-shift}px)`;
-      }
-      // fallback simpler approach using percent: translate by index * 352px approx; but compute dynamic
-      function smartUpdate(){
-        const wrapW = slides.parentElement.getBoundingClientRect().width;
-        const firstW = hangs[0].getBoundingClientRect().width;
-        const gap = (wrapW - firstW) * 0.06;
-        const stride = firstW + gap;
-        slides.style.transform = `translateX(${-index * (stride)}px)`;
-      }
-
-      function prevSlide(){
-        index = (index - 1 + hangs.length) % hangs.length;
-        smartUpdate();
-      }
-      function nextSlide(){
-        index = (index + 1) % hangs.length;
-        smartUpdate();
-      }
-      prev.addEventListener('click', prevSlide);
-      next.addEventListener('click', nextSlide);
-
-      // autoplay
-      let auto = setInterval(nextSlide, 4800);
-      // pause on hover
-      slides.parentElement.addEventListener('mouseenter', ()=> clearInterval(auto));
-      slides.parentElement.addEventListener('mouseleave', ()=> auto = setInterval(nextSlide,4800));
-
-      // make responsive
-      window.addEventListener('resize', smartUpdate);
-      // initial
-      setTimeout(smartUpdate,120);
-    })();
-
-
-    /*********************
-     * Program list: clicking an item scrolls/highlights corresponding card
-     *********************/
-    (function programNav(){
-      const items = document.querySelectorAll('.program-item');
-      const cards = document.querySelectorAll('.time-card');
-      function unhighlight(){
-        cards.forEach(c=>c.classList.remove('highlight'));
-      }
-      items.forEach(it=>{
-        it.addEventListener('click', ()=>{
-          const t = it.getAttribute('data-target');
-          const card = document.getElementById(t);
-          if(card){
-            // scroll to card smoothly (account for nav height)
-            const y = card.getBoundingClientRect().top + window.scrollY - 90;
-            window.scrollTo({top: y, behavior: 'smooth'});
-            // highlight
-            unhighlight();
-            setTimeout(()=> card.classList.add('highlight'), 600);
-            // remove highlight after a while
-            setTimeout(()=> card.classList.remove('highlight'), 3000);
-          }
-        });
-
-        // extra tiny doodle animation on hover
-        it.addEventListener('mouseenter', ()=> {
-          it.querySelector('.dot').style.transform = 'translateY(-3px)';
-        });
-        it.addEventListener('mouseleave', ()=> {
-          it.querySelector('.dot').style.transform = 'translateY(0)';
-        });
-      });
-    })();
-
-    /*********************
-     * RSVP handler (demo only - does not send)
-     *********************/
-    function handleRSVP(){
-      const name = document.getElementById('rsvpName').value.trim();
-      const attend = document.getElementById('rsvpAttend').value;
-      const msg = document.getElementById('rsvpMsg').value.trim();
-      const thanks = document.getElementById('rsvpThanks');
-      // simple local confirmation
-      thanks.style.display = 'block';
-      thanks.innerHTML = `Thanks ${name || ''}! Your RSVP was recorded: <strong>${attend === 'yes' ? 'Attending' : 'Not attending'}</strong> ${msg ? '<br/><em>"' + msg + '"</em>' : ''}`;
-      // reset form a touch (keep values in demo)
-      // clearTimeout if needed
-      setTimeout(()=>{ thanks.style.opacity = '1'; }, 200);
-    }
-
-    /*********************
-     * small accessibility + touch niceties
-     *********************/
-    // ensure nav link active when page loads
-    document.addEventListener('DOMContentLoaded', ()=>{
-      // handle clicking nav links to offset fixed nav height
-      document.querySelectorAll('.main-nav a').forEach(a=>{
-        a.addEventListener('click', (e)=>{
-          // allow browser to set hash & then perform offset scroll
-          const href = a.getAttribute('href');
-          if(href && href.startsWith('#')){
-            e.preventDefault();
-            const el = document.querySelector(href);
-            if(el){
-              const top = el.getBoundingClientRect().top + window.scrollY - 70;
-              window.scrollTo({ top, behavior:'smooth' });
-              // set hash
-              history.replaceState(null, '', href);
+          linkNodes.forEach(l => l.classList.remove('active'));
+          
+          for(let i = pairs.length - 1; i >= 0; i--){
+            const sec = pairs[i].section;
+            if (sec && fromTop >= sec.offsetTop) {
+              pairs[i].link.classList.add('active');
+              break;
             }
           }
-        });
-      });
-    });
+        }
+        window.addEventListener('scroll', onScroll, {passive:true});
+        onScroll();
 
+        linkNodes.forEach(a => {
+          a.addEventListener('click', (e)=>{
+            const href = a.getAttribute('href');
+            if(href && href.startsWith('#')){
+              e.preventDefault();
+              const el = document.querySelector(href);
+              if(el){
+                const top = el.getBoundingClientRect().top + window.scrollY - 70;
+                window.scrollTo({ top, behavior:'smooth' });
+                history.replaceState(null, '', href);
+                linkNodes.forEach(x=>x.classList.remove('active'));
+                a.classList.add('active');
+              }
+            }
+          });
+        });
+      } catch(e){
+        console.error('navWatch error', e);
+      }
+    })();
+
+    /*********************
+      * Gallery slider
+      *********************/
+    (function gallery(){
+      try {
+        const slides = document.getElementById('slides');
+        if(!slides) return;
+        const hangs = slides.querySelectorAll('.hang');
+        const prev = document.getElementById('prevBtn');
+        const next = document.getElementById('nextBtn');
+        let index = 0;
+
+        function computeStride(){
+          if(hangs.length === 0) return 0;
+          const firstRect = hangs[0].getBoundingClientRect();
+          let gap = firstRect.width * 0.06;
+          if(hangs.length > 1){
+            const secondRect = hangs[1].getBoundingClientRect();
+            gap = Math.max(8, secondRect.left - firstRect.right);
+          }
+          return Math.round(firstRect.width + gap);
+        }
+
+        function smartUpdate(){
+          const stride = computeStride() || 0;
+          let visibleCount = 3;
+          
+          if(window.innerWidth < 880) visibleCount = 2; 
+          if(window.innerWidth < 520) visibleCount = 1; 
+
+          const maxIndex = Math.max(0, hangs.length - visibleCount);
+          
+          if(index > maxIndex) index = maxIndex;
+          if(index < 0) index = 0;
+          
+          slides.style.transform = `translateX(-${index * stride}px)`;
+          
+          prev.disabled = (index === 0);
+          next.disabled = (index >= maxIndex);
+        }
+        
+        prev.addEventListener('click', () => { index = Math.max(0, index - 1); smartUpdate(); });
+        next.addEventListener('click', () => { index = Math.min(hangs.length - 1, index + 1); smartUpdate(); });
+        window.addEventListener('resize', smartUpdate);
+        
+        setTimeout(smartUpdate, 100);
+      } catch(e){
+        console.error('Gallery error', e);
+      }
+    })();
+
+    /*********************
+      * Program list to Timeline Linker
+      *********************/
+    (function programLinker(){
+      try {
+        const listItems = document.querySelectorAll('.program-item');
+        const timeline = document.getElementById('timeline');
+        if(!listItems.length || !timeline) return;
+
+        function highlightCard(id){
+          document.querySelectorAll('.time-card').forEach(card => card.classList.remove('highlight'));
+          const target = document.getElementById(id);
+          if(target) target.classList.add('highlight');
+        }
+
+        listItems.forEach(item => {
+          const targetId = item.getAttribute('data-target');
+          if(!targetId) return;
+
+          item.addEventListener('click', () => {
+            const targetElement = document.getElementById(targetId);
+            if(targetElement){
+              highlightCard(targetId);
+              const top = targetElement.getBoundingClientRect().top + window.scrollY - 100; 
+              window.scrollTo({ top, behavior: 'smooth' });
+              setTimeout(() => targetElement.classList.remove('highlight'), 1500);
+            }
+          });
+        });
+      } catch(e){
+        console.error('Program linker error', e);
+      }
+    })();
+
+    /*********************
+      * RSVP Form Handler (Simulated)
+      *********************/
+    (function rsvpHandler(){
+      try {
+        const form = document.getElementById('rsvpForm');
+        const thanks = document.getElementById('rsvpThanks');
+        if(!form || !thanks) return;
+
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const nameInput = document.getElementById('rsvpName');
+          const attendSelect = document.getElementById('rsvpAttend');
+
+          if(!nameInput.value || !attendSelect.value){
+            alert('Please fill out your name and attendance status.');
+            return;
+          }
+
+          const name = nameInput.value.trim();
+          const attending = attendSelect.value === 'yes';
+
+          form.style.display = 'none';
+          thanks.style.display = 'block';
+
+          if(attending){
+            thanks.innerHTML = `Thank you, **${name}**! We are thrilled you can make it!`;
+          } else {
+            thanks.innerHTML = `Thank you, **${name}**. We will miss you! We appreciate you letting us know.`;
+          }
+
+          console.log('RSVP Submitted:', {
+            name: name,
+            attending: attending ? 'Yes' : 'No',
+            message: document.getElementById('rsvpMsg').value
+          });
+        });
+      } catch(e){
+        console.error('RSVP handler error', e);
+      }
+    })();
   </script>
 </body>
 </html>
