@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -379,101 +378,18 @@
     </div>
   </header>
 
- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wedding Invitation | Passbook Style</title>
-  <style>
-    body {
-      font-family: 'Georgia', serif;
-      background: #f8f5f0;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    section#invitation {
-      text-align: center;
-    }
-
-    h2 {
-      font-family: 'Great Vibes', cursive;
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      color: #6b4e3d;
-    }
-
-    /* Flipbook Container */
-    .flipbook {
-      width: 600px;
-      height: 400px;
-      perspective: 2000px;
-      margin: auto;
-    }
-
-    .book {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 1s;
-      cursor: pointer;
-    }
-
-    .page {
-      width: 50%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      overflow: hidden;
-      backface-visibility: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      border-radius: 8px;
-    }
-
-    .page img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .left {
-      left: 0;
-      transform-origin: left center;
-    }
-
-    .right {
-      right: 0;
-      transform-origin: right center;
-      transform: rotateY(180deg);
-    }
-
-    .book.open {
-      transform: rotateY(-180deg);
-    }
-  </style>
-</head>
-<body>
   <section class="section section-light" id="invitation">
     <h2>Official Invitation</h2>
+    <div id="invitation-content">
+        <h3>Join Our Hearts</h3>
+        <p>You are cordially invited to witness the solemnizing of the Holy Matrimony uniting Fritz Bernard and Joana Queen.</p>
 
-    <div class="flipbook" onclick="this.querySelector('.book').classList.toggle('open')">
-      <div class="book">
-        
-        <!-- Left Page (Cover) -->
-        <div class="page left">
-          <img src="cover.jpg" alt="Invitation Cover">
+        <div class="location-details">
+            <p><strong>Church Ceremony:</strong> Our Mother of Perpetual Help Redemptorist – Dumaguete<br>2:00 PM</p>
+            <p><strong>Reception:</strong> The Baly Oriental Hotel – Dumaguete<br>4:30 PM</p>
         </div>
         
-        <!-- Right Page (Inside) -->
-        <div class="page right">
-          <img src="page1.jpg" alt="Invitation Inside">
-        </div>
-      </div>
+        <p style="margin-top: 1.5rem; color: rgba(0,0,0,0.7);">Your presence and prayers would make this day truly complete. We look forward to celebrating with you!</p>
     </div>
   </section>
 
