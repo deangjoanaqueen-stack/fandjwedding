@@ -1313,7 +1313,7 @@
         const gallerySlides = document.getElementById('gallerySlides');
         const prevGalleryBtn = document.getElementById('prevGalleryBtn');
         const nextGalleryBtn = document.getElementById('nextGalleryBtn');
-        const slidesPerView = 2; // Show 2 slides initially (adjust based on design)
+        const slidesPerView = 1; // Show 2 slides initially (adjust based on design)
         let currentSlide = 0;
 
         function updateGallery() {
@@ -1345,7 +1345,7 @@
 
             // Update button state (simplistic: disable if we reach a certain point)
             prevGalleryBtn.disabled = (currentSlide === 0);
-            nextGalleryBtn.disabled = (currentSlide >= totalItems - slidesPerView - 1); // For small screens, this is okay. For large screens, we need a smarter check based on visible items.
+            nextGalleryBtn.disabled = (currentSlide >= totalItems - slidesPerView - 2); // For small screens, this is okay. For large screens, we need a smarter check based on visible items.
         }
 
         prevGalleryBtn.addEventListener('click', () => {
