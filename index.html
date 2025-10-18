@@ -1,914 +1,1560 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Fritz & Joana | Wedding Invitation</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Cormorant+Garamond:wght@400;600&family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --green-dark:#1b4332;
-      --green:#2d6a4f;
-      --green-light:#95d5b2;
-      --white:#fff;
-      --overlay: rgba(0,0,0,0.45);
-      --gold:#d4af37;
-      --petal: rgba(255,255,255,0.95);
-      /* Polaroid Color */
-      --polaroid-frame: #fcfcfc;
-      --polaroid-shadow: rgba(0,0,0,0.5);
-      --emerald: #047857; /* Emerald Green */
-    }
-
-    /* base */
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family: 'Montserrat', sans-serif;
-      color:var(--white);
-      background: linear-gradient(180deg,var(--green-dark) 0%, #173821 100%);
-      overflow-x:hidden;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
-
-    /* NAV */
-    .main-nav{
-      position:fixed; top:0; left:0; right:0; z-index:1200;
-      background:rgba(11,35,25,0.75);
-      backdrop-filter: blur(6px);
-      padding:.9rem 1rem;
-      display:flex; justify-content:center;
-      transition: all .35s ease;
-    }
-    .main-nav.scrolled{ background: rgba(27,67,50,0.95); box-shadow:0 6px 24px rgba(0,0,0,0.35) }
-    .main-nav ul{ list-style:none; margin:0; padding:0; display:flex; gap:1.4rem; align-items:center; }
-    .main-nav a{
-      text-decoration:none; color:var(--green-light); font-family:'Cormorant Garamond',serif; font-weight:600;
-      padding:.2rem .35rem; position:relative;
-    }
-    .main-nav a:hover{ color:var(--white) }
-    .main-nav a.active{ color:var(--white); border-bottom:2px solid var(--gold); padding-bottom:.2rem }
-
-    /* Hero */
-    .hero{
-      height:100vh; min-height:620px; position:relative; overflow:hidden;
-      background: url("8R302075 (6).jpg") center/cover no-repeat;
-      display:flex; align-items:center; justify-content:center; text-align:center;
-    }
-    .hero::after{
-      content:""; position:absolute; inset:0; background:var(--overlay);
-    }
-
-    /* falling petals container */
-    .petals{
-      pointer-events:none; position:absolute; inset:0; z-index:5; overflow:visible;
-    }
-    .petal{
-      position:absolute; width:28px; height:28px; background: radial-gradient(circle at 40% 30%, rgba(255,255,255,0.95) 0 40%, rgba(255,255,255,0.85) 41% 60%, rgba(255,255,255,0.7) 61% 100%);
-      border-radius:50% 50% 40% 60%;
-      transform-origin:center;
-      opacity:.95;
-      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.08));
-      will-change: transform, top, left, opacity;
-      animation: fall linear infinite, sway ease-in-out infinite;
-    }
-    @keyframes fall{
-      from{ transform: translateY(-10vh) rotate(0deg); opacity:1 }
-      to{ transform: translateY(110vh) rotate(360deg); opacity:0.85 }
-    }
-    @keyframes sway{
-      0%{ transform: translateX(0) rotate(0deg) }
-      50%{ transform: translateX(18px) rotate(8deg) }
-      100%{ transform: translateX(0) rotate(0deg) }
-    }
-
-    /* initials (center behind names) - SHIMMER/PULSE EFFECT */
-    .hero-initials{
-      position:absolute; z-index:2; left:50%; top:48%;
-      transform:translate(-50%,-50%); font-family:'Great Vibes',cursive;
-      font-size:12rem; color:var(--gold); opacity:0; pointer-events:none;
-      mix-blend-mode:screen; text-shadow: 0 2px 6px rgba(0,0,0,0.25);
-      animation: initialsFade 2.6s cubic-bezier(.2,.9,.3,1) forwards,
-                 initialsPulse 4s infinite 3s; 
-    }
-    @keyframes initialsFade{
-      from{opacity:0; transform:translate(-50%,-50%) scale(.92)}
-      to{opacity:.18; transform:translate(-50%,-50%) scale(1)}
-    }
-    @keyframes initialsPulse{
-        0%, 100% { opacity: 0.18; text-shadow: 0 0 10px rgba(255, 215, 0, 0); }
-        50% { opacity: 0.25; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
-    }
-
-    /* hero content */
-    .hero-content{ position:relative; z-index:10; color:var(--white); max-width:2000px; padding:2rem }
-    .hero h1 {font-family: 'Great Vibes', cursive;font-size: 10rem;margin: 0;color: var(--gold);text-shadow: 0 0 12px rgba(255, 215, 0, 0.6),0 0 24px rgba(0, 0, 0, 0.3);      }
-    .hero h2{ font-family:'Cormorant Garamond',serif; font-size:1.6rem; margin:.25rem 0 6px; font-weight:600; color:#fff; opacity:.95 }
-    .hero h3{ font-family:'Montserrat',sans-serif; font-size:1rem; font-weight:300; opacity:.95; margin:0 0 14px }
-
-    /* countdown */
-    .countdown{ display:flex; gap:1rem; justify-content:center; margin-top:1rem; flex-wrap:wrap }
-    .time-unit{ background: rgba(255,255,255,0.06); padding:.7rem 1rem; border-radius:10px; min-width:110px; text-align:center; }
-    .time-value{ 
-        font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:700; color:var(--green-light);
-        /* New animation for a subtle tick/pop effect */
-        animation: time-pop 1s ease-out infinite; 
-    }
-    @keyframes time-pop {
-        0% { transform: scale(1); opacity: 1; }
-        2% { transform: scale(1.05); opacity: 0.8; }
-        5% { transform: scale(1); opacity: 1; }
-        100% { transform: scale(1); opacity: 1; }
-    }
-    /* Apply staggered delays to time units */
-    #seconds { animation-name: time-pop; }
-    #minutes { animation-name: time-pop; animation-delay: 60s; }
-    #hours { animation-name: time-pop; animation-delay: 3600s; }
-    #days { animation-name: time-pop; animation-delay: 86400s; }
-
-    /* Section base */
-    .section{ padding:4.5rem 1.5rem; position:relative }
-    .section h2{ text-align:center; font-family:'Great Vibes',cursive; font-size:2.4rem; margin-bottom:1.2rem; color:var(--gold) }
-
-    /* Invitation Section Specific Styles */
-    #invitation-content {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 2rem;
-        background: rgba(255, 255, 255, 0.98);
-        color: var(--green-dark);
-        border-radius: 14px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-        text-align: center;
-    }
-    #invitation-content h3 {
-        font-family: 'Great Vibes', cursive;
-        font-size: 2rem;
-        color: var(--emerald);
-        margin-bottom: 0.5rem;
-    }
-    #invitation-content p {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 1.1rem;
-        line-height: 1.6;
-        margin-bottom: 1rem;
-    }
-    .location-details {
-        font-weight: 600;
-        margin-top: 1.5rem;
-        padding: 1rem 0;
-        border-top: 1px solid rgba(0,0,0,0.1);
-        border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
-
-    /* story */
-    .story-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:1.2rem; max-width:1100px; margin:0 auto; }
-    .story-card{ background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); padding:1.2rem 1.3rem; border-radius:14px; box-shadow: 0 8px 30px rgba(0,0,0,0.2) }
-    .story-card img{ 
-        width:100%; height:auto; 
-        border-radius:8px; display:block; 
-        margin-bottom:10px; object-fit:cover;
-        /* Subtle hover effect for story images */
-        transition: transform 0.3s ease-in-out;
-    }
-    .story-card:hover img {
-        transform: scale(1.02);
-    }
-
-    /* --- GALLERY - POLAROID STYLE --- */
-    .gallery-wrap{ max-width:1000px; margin:0 auto; display:flex; flex-direction:column; gap:1rem; align-items:center; }
-    .gallery-stage{ width:100%; overflow:hidden; position:relative }
-    .slides{ display:flex; transition: transform 900ms cubic-bezier(.2,.9,.3,1); gap:6%; padding:2% 3%; align-items:flex-start }
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- content="width=device-width,initial-scale=1" /> -->
+    <title>Fritz & Joana | Wedding Invitation</title>
     
-    .slides .hang{
-      width:240px; 
-      flex:0 0 240px; 
-      background:transparent; 
-      display:flex; 
-      flex-direction:column; 
-      align-items:center;
-      transform-origin: top center;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Cormorant+Garamond:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;600;700&family=Roboto+Mono:wght@400;600&display=swap" rel="stylesheet">
     
-    .polaroid-frame{ 
-      width: 100%;
-      padding: 10px 10px 30px 10px; 
-      background-color: var(--polaroid-frame);
-      box-shadow: 0 12px 30px var(--polaroid-shadow);
-      position: relative; 
-      margin-top: 12px;
-      border-radius: 2px;
-      transition: transform 450ms ease, box-shadow 300ms ease;
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMD/CDQd/0vQyNKhJ7w/v4U881kQGk/EfrEED4WJ0lC6W9+c3+F7+h07/J/R8Jc1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        :root{
+            --green-dark:#1b4332;
+            --green:#2d6a4f;
+            --green-light:#95d5b2;
+            --white:#fff;
+            --overlay: rgba(0,0,0,0.45);
+            --gold:#d4af37;
+            --petal: rgba(255,255,255,0.95);
+            /* Polaroid Color */
+            --polaroid-frame: #fcfcfc;
+            --polaroid-shadow: rgba(0,0,0,0.5);
+            --emerald: #047857; /* Emerald Green */
+
+            /* New Receipt/Slip Colors */
+            --slip-paper: #e6ffe6; /* Very light green/mint for paper */
+            --slip-text: var(--green-dark); /* Dark green for text */
+            --slip-highlight: #40916c; /* Medium green for headers/accents */
+        }
+
+        /* base */
+        *{box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{
+            margin:0;
+            font-family: 'Montserrat', sans-serif;
+            color:var(--white);
+            background: url('background1.png') center / cover no-repeat fixed;
+            /* background: linear-gradient(180deg,var(--green-dark) 0%, #173821 100%); */
+            overflow-x:hidden;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+        }
+
+        /* INVITATION COVER */
+        #invitation-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(29, 59, 42, 0.6), rgba(29, 59, 42, 0.6)),
+            url('doodle 1.jpg') center center / cover no-repeat fixed; 
+            background-size: fill;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 1.5s ease-out, visibility 1.5s ease-out;
+            visibility: visible;
+
+        }
+        
+
+        #invitation-cover.opened {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .cover-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.5rem, 10vw, 6rem);
+            color: var(--gold);
+            /* text-shadow: 0 0 12px rgba(255, 215, 0, 0.6),0 0 24px rgba(0, 0, 0, 0.3); */
+            margin-bottom: 0.5rem;
+            margin-right: 0.5rem;
+            opacity: 0;
+            animation: fadeInFromTop 1s ease-out forwards 0.5s;
+            text-align: center;
+        }
+        .cover-names {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 3rem; /*clamp(1.2rem, 4vw, 2.5rem);*/
+            color: var(--white);
+            font-style: italic;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            margin-top: 0rem;
+            letter-spacing: 4px;
+            opacity: 0;
+            animation: fadeInFromTop 1s ease-out forwards 0.7s;
+            text-align: center;
+        }
+
+        .cover-to-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;/*clamp(1.2rem, 4vw, 2.5rem);*/
+            color: var(--white);
+            margin-bottom: 0rem;
+            margin-top: 0rem;
+            opacity: 0;
+            animation: fadeInFromTop 1s ease-out forwards 0.7s;
+        }
+
+        #open-invitation-btn {
+            background: var(--gold);
+            color: var(--green-dark);
+            border: none;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s, background-color 0.2s;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards 1.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        #open-invitation-btn:hover {
+            background: var(--light-paper); /* Hover to light paper */
+            color: var(--emerald-twilight); 
+            border-color: var(--gold-accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(184, 134, 11, 0.7);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInFromTop {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        /* NAV */
+        .main-nav{
+            position:fixed; top:0; left:0; right:0; z-index:1200;
+            background:rgba(11,35,25,0.75);
+            backdrop-filter: blur(6px);
+            padding:.9rem 1rem;
+            display:flex; justify-content:center;
+            transition: all .35s ease;
+            flex-wrap: wrap;
+        }
+        .main-nav.scrolled{ 
+            background: rgba(27,67,50,0.98); 
+            box-shadow:0 6px 24px rgba(0,0,0,0.35); 
+            padding:.6rem 1rem; /* Smaller padding when scrolled */
+        }
+        .main-nav ul{ list-style:none; margin:0; padding:0; display:flex; gap:1.4rem; align-items:center; }
+        .main-nav a{
+            text-decoration:none; color:var(--green-light); font-family:'Cormorant Garamond',serif; font-weight:600;
+            padding:.2rem .35rem; position:relative;
+            transition: color .2s ease, border-bottom .2s ease;
+        }
+        .main-nav a:hover{ color:var(--white) }
+        /* .main-nav a.active{ color:var(--white); border-bottom:2px solid var(--gold); padding-bottom:.2rem } */
+        
+        .main-nav a.active {
+        color: var(--white);
+        border-bottom: 2px solid var(--gold);
+        padding-bottom: 0.2rem;
+        }
+
+        /* ✅ RESPONSIVE BEHAVIOR */
+        @media (max-width: 768px) {
+        .main-nav {
+            padding: 0.6rem 0.5rem;
+        }
+
+        .main-nav ul {
+            gap: 0.7rem;
+        }
+
+        .main-nav a {
+            font-size: 0.95rem;
+            padding: 0.15rem 0.25rem;
+        }
+        }
+
+        @media (max-width: 480px) {
+        .main-nav {
+            padding: 0.5rem 0.3rem;
+        }
+
+        .main-nav ul {
+            gap: 0.6rem;
+        }
+
+        .main-nav a {
+            font-size: 0.9rem;
+            padding: 0.1rem 0.2rem;
+        }
+        }
+        
+
+        /* Hero */
+        .hero{
+            height:100vh; min-height:620px; position:relative; overflow:hidden;
+            background: url("8R302075 (6).jpg") center/cover no-repeat;
+            display:flex; align-items:center; justify-content:center; text-align:center;
+        }
+        .hero::after{
+            content:""; position:absolute; inset:0; background:var(--overlay);
+        }
+
+        /* falling petals container */
+        .petals{
+            pointer-events:none; position:absolute; inset:0; z-index:5; overflow:hidden;
+        }
+        .petal{
+            position:absolute; width:28px; height:28px; background: radial-gradient(ellipse at center, rgba(255,255,255,0.95) 0 40%, rgba(255,255,255,0.85) 41% 60%, rgba(255,255,255,0.7) 61% 100%);
+            border-radius:50% 50% 40% 60%;
+            transform-origin:center;
+            opacity:.95;
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.08));
+            will-change: transform, top, left, opacity;
+            animation: fall linear infinite, sway ease-in-out infinite;
+        }
+        @keyframes fall{
+            from{ transform: translateY(-10vh) rotate(0deg); opacity:1 }
+            to{ transform: translateY(110vh) rotate(360deg); opacity:0.85 }
+        }
+        @keyframes sway{
+            0%{ transform: translateX(0) rotate(0deg) }
+            50%{ transform: translateX(18px) rotate(8deg) }
+            100%{ transform: translateX(0) rotate(0deg) }
+        }
+
+        /* initials (center behind names) - SHIMMER/PULSE EFFECT */
+        .hero-initials{
+            position:absolute; z-index:2; left:50%; top:48%;
+            transform:translate(-50%,-50%); font-family:'Great Vibes',cursive;
+            font-size:12rem; color:var(--gold); opacity:0; pointer-events:none;
+            mix-blend-mode:screen; text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            animation: initialsFade 2.6s cubic-bezier(.2,.9,.3,1) forwards,
+                        initialsPulse 4s infinite 3s; 
+        }
+        @keyframes initialsFade{
+            from{opacity:0; transform:translate(-50%,-50%) scale(.92)}
+            to{opacity:.18; transform:translate(-50%,-50%) scale(1)}
+        }
+        @keyframes initialsPulse{
+                0%, 100% { opacity: 0.18; text-shadow: 0 0 10px rgba(255, 215, 0, 0); }
+                50% { opacity: 0.25; text-shadow: 0 0 15px rgba(255, 215, 0, 0.5); }
+        }
+
+        /* hero content */
+        .hero-content{ position:relative; z-index:10; color:var(--white); max-width:2000px; padding:2rem }
+        .hero h1 {font-family: 'Great Vibes', cursive;font-size: 10rem;margin: 0;color: var(--gold);text-shadow: 0 0 12px rgba(255, 215, 0, 0.6),0 0 24px rgba(0, 0, 0, 0.3); 	 	 }
+        .hero h2{ font-family:'Cormorant Garamond',serif; font-size:1.6rem; margin:.25rem 0 6px; font-weight:600; color:#fff; opacity:.95 }
+        .hero h3{ font-family:'Montserrat',sans-serif; font-size:2rem; font-weight:300; opacity:.95; margin:0 0 14px }
+
+        /* countdown */
+        .countdown{ display:flex; gap:0.8rem; justify-content:center; margin-top:1rem; flex-wrap:wrap }
+        .time-unit{ background: rgba(255,255,255,0.06); padding:.7rem 1rem; border-radius:10px; min-width:110px; text-align:center; }
+        .time-value{ 
+            font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:700; color:var(--green-light);
+            animation: none;
+        }
+
+        /* Section base */
+        .section{ padding:4.5rem 1.5rem; position:relative }
+        .section h2{ 
+            text-align:center; font-family:'Great Vibes',cursive; 
+            font-size:6rem; /* Base size */
+            margin-bottom:1.2rem; color:var(--gold);
+        }
+        /* Specific override for the "Official Invitation" title to make it bigger */
+        #invitation h2 {
+            font-size: clamp(3.5rem, 8vw, 5rem); 
+        }
+
+        /* --- OFFICIAL INVITATION (PASSBOOK) --- */
+        .passbook-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .passbook {
+            width: 800px; /* Fixed passbook width */
+            height: 600px; /* Fixed passbook height */
+            /* Changed to gold background */   
+            /* background-color: var(--gold);  */
+            /* border: 1px solid #dcdcdc; */
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.3), inset 0 0 10px rgba(0,0,0,0.05); /* Deep outer shadow, subtle inner shadow */
+            overflow: hidden; /* Hide excess slides */
+            position: relative;
+            cursor: default;
+            /* Passbook spine effect */
+            /* Lighter spine for contrast */
+            /* border-left: 20px solid rgba(255,255,255,0.7);  */
+        }
+
+        .passbook-slides {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(.2,.9,.3,1); /* Smooth page turn animation */
+            /* Page turn style */
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .passbook-page {
+            flex: 0 0 100%; /* Each page takes 100% of the passbook width */
+            height: 100%;
+            padding: 15px; /* Slightly reduced padding to make images bigger */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent; 
+        }
+
+        .passbook-page img {
+            width: 750%;
+            height: 600%;
+            max-width: 750px; /* Increased max width */
+            max-height: 600px; /* Increased max height */
+            object-fit: contain; /* Changed to 'contain' to ensure full image is visible */
+            border-radius: 6px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .passbook-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.3); /* Translucent white for contrast on gold */
+            color: var(--green-dark); /* Dark green for text */
+            border: none;
+            font-size: 2.2rem;
+            padding: 0 1rem;
+            height: 60px;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.2s, opacity 0.3s, color .2s;
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .passbook-nav:hover:not(:disabled) {
+            background: rgba(255,255,255,0.6);
+            color: var(--green);
+        }
+
+        .passbook-nav:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .prev-nav {
+            left: 10px;
+        }
+
+        .next-nav {
+            right: 10px;
+        }
+
+        .page-counter {
+            margin-top: 15px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: var(--green-light);
+            font-weight: 600;
+        }
+        /* --- END PASSBOOK STYLES --- */
+
+
+        /* story */
+        .story-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap:1.2rem; max-width:1100px; margin:0 auto; }
+        .story-card{ background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03)); padding:1.2rem 1.3rem; border-radius:14px; box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        background: rgba(255, 255, 255, 0.18); /* translucent white tint */
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(18px) saturate(200%);
+        -webkit-backdrop-filter: blur(18px) saturate(200%);
+        /* Shadows for depth and glow */
+        box-shadow:0 8px 30px rgba(0, 0, 0, 0.25), /* outer depth */
+        inset 0 0 12px rgba(255, 255, 255, 0.15); }
+        .story-card img{ 
+            width:100%; height:auto; 
+            border-radius:8px; display:block; 
+            margin-bottom:10px; object-fit:cover;
+            /* Subtle hover effect for story images */
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .story-card:hover img {
+            transform: scale(1.08);
+        }
+        .story-cards {
+  background: rgba(255, 255, 255, 0.10); /* less opaque (more transparent) */
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  padding: 1.2rem 1.3rem;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  box-shadow:
+    0 6px 25px rgba(0, 0, 0, 0.20), /* soft outer shadow */
+    inset 0 0 10px rgba(255, 255, 255, 0.10); /* subtle inner glow */
+  transition: all 0.4s ease;
+}
+
+/* 🌟 Hover Effect */
+.story-card:hover {
+  background: rgba(255, 255, 255, 0.20); /* slightly more visible on hover */
+  transform: translateY(-5px); /* lifts up */
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.3),
+    inset 0 0 18px rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+        /* --- GALLERY - POLAROID STYLE (Existing styles kept) --- */
+        .gallery-wrap{ max-width:1000px; margin:0 auto; display:flex; flex-direction:column; gap:1rem; align-items:center; }
+        .gallery-stage{ width:100%; overflow:hidden; position:relative }
+        .slides{ display:flex; transition: transform 900ms cubic-bezier(.2,.9,.3,1); gap:6%; padding:2% 3%; align-items:flex-start }
+        
+        .slides .hang{
+            width:240px; 
+            flex:0 0 240px; 
+            background:transparent; 
+            display:flex; 
+            flex-direction:column; 
+            align-items:center;
+            transform-origin: top center;
+        }
+        
+        .polaroid-frame{ 
+            width: 100%;
+            padding: 10px 10px 30px 10px; 
+            background-color: var(--polaroid-frame);
+            box-shadow: 0 12px 30px var(--polaroid-shadow);
+            position: relative; 
+            margin-top: 12px;
+            border-radius: 2px;
+            transition: transform 450ms ease, box-shadow 300ms ease;
+        }
+
+        .photo{
+            width: 100%; 
+            height: 180px; 
+            background-size:cover; 
+            background-position:center; 
+            display:block;
+            border-radius: 1px; 
+        }
+
+        .caption{
+            color: var(--emerald); /* Emerald Green applied */
+            font-weight: bold; /* Bold applied */
+            font-size: 0.75rem;
+            font-style: italic;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        /* Decorative Hanger (Wire/String Look) */
+        .hanger{
+            width: 100%;
+            height: 0px; 
+            border-top: 1px dashed rgba(255,255,255,0.5); 
+            opacity: .95; 
+            position: relative;
+            margin-top: 20px; 
+        }
+
+        /* Small Pin/Clip */
+        .polaroid-frame::before{
+            content: "";
+            position: absolute;
+            top: -10px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: 0 0 6px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+        
+        /* Random Initial Rotation & Swing Animation */
+        .hang.s1{ transform: rotate(var(--initial-rot, -3deg)); animation: swing 6s ease-in-out infinite; transform-origin: top center; }
+        .hang.s2{ transform: rotate(var(--initial-rot, 1deg)); animation: swing 5.3s ease-in-out infinite; transform-origin: top center; animation-delay:.2s }
+        .hang.s3{ transform: rotate(var(--initial-rot, -5deg)); animation: swing 6.8s ease-in-out infinite; animation-delay:.5s }
+        .hang.s4{ transform: rotate(var(--initial-rot, 2deg)); animation: swing 5.8s ease-in-out infinite; animation-delay: .1s }
+
+        @keyframes swing{
+            0%{ transform: rotate(var(--initial-rot, -2deg)) } 
+            50%{ transform: rotate(calc(var(--initial-rot, -2deg) + 5deg)) } 
+            100%{ transform: rotate(var(--initial-rot, -2deg)) } 
+        }
+        
+        .polaroid-frame:hover{ 
+            transform: translateY(-6px) scale(1.03) rotate(0deg); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+        }
+        
+        /* gallery controls */
+        .gallery-controls{ width:100%; display:flex; justify-content:space-between; align-items:center; gap:10px; max-width:1000px; margin:0 auto; padding:0 2% }
+        .gbtn{ background:rgba(0,0,0,0.45); color:var(--white); border:none; font-size:1.4rem; padding:.55rem .85rem; border-radius:10px; cursor:pointer; transition: background .2s ease }
+        .gbtn:hover{ background: var(--green) }
+        .gbtn:active{ transform:scale(.98) }
+        /* --- END GALLERY STYLES --- */
+
+        /* celebration & program list */
+        .celebration-grid{ display:flex; flex-wrap:wrap; gap:1.2rem; justify-content:center; align-items:flex-start; max-width:1000px; margin:0 auto; }
+        .program-list{ width:360px; background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); padding:1.2rem; border-radius:14px; box-shadow: 0 10px 30px rgba(0,0,0,0.25) }
+        .program-list h4{ margin:0 0 10px; font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:var(--white) }
+        .program-items{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.8rem }
+        .program-item{
+            display:flex; align-items:center; gap:.8rem; padding:.65rem; border-radius:10px; cursor:pointer;
+            transition: transform .28s ease, background .28s ease; position:relative; overflow:hidden;
+        }
+        .program-item:hover{ transform: translateY(-4px); background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); }
+        .program-item .dot{
+            width:48px; height:48px; border-radius:12px; background: transparent; display:flex; text-align: center; justify-content:center; flex-shrink:0;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+            transition: transform .18s ease;
+        }
+        .program-item .time{ font-weight:700; font-family:'Cormorant Garamond',serif; color: rgba(255, 255, 255, 0.9); font-size: 1rem; }
+        .program-item .label{ font-size:.98rem; opacity:.95; font-family:'Montserrat',sans-serif; color:rgba(255,255,255,0.95) }
+        .program-item .label strong { color:var(--gold); } /* Highlight important labels */
+
+        /* doodle animation (SVG inline) on each item reveal */
+        .doodle { width:36px; height:36px; display:block; transform:scale(.9); opacity:.95; color:var(--green-dark); transition:transform .4s ease }
+        .program-item:hover .doodle{ transform:scale(1.08) rotate(4deg) }
+        
+        /* timeline cards (for anchors) */
+        .timeline{ flex:1 1 520px; padding:1rem; display:flex; flex-direction:column; gap:.8rem; }
+        .time-card {color: var(--white);padding: 1rem 1.1rem;border-radius: 12px;
+        /* Glass effect background */
+        background: rgba(255, 255, 255, 0.18); /* translucent white tint */
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(18px) saturate(200%);
+        -webkit-backdrop-filter: blur(18px) saturate(200%);
+        /* Shadows for depth and glow */
+        box-shadow:0 8px 30px rgba(0, 0, 0, 0.25), /* outer depth */
+        inset 0 0 12px rgba(255, 255, 255, 0.15); /* inner light */
+
+        transition: transform 0.28s ease, box-shadow 0.28s ease;
     }
 
-    .photo{
-      width: 100%; 
-      height: 180px; 
-      background-size:cover; 
-      background-position:center; 
-      display:block;
-      border-radius: 1px; 
-    }
+/* Add an interactive hover effect */
+.time-card:hover {
+  transform: scale(1.03);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.35),
+    inset 0 0 18px rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.25); /* slightly more opaque on hover */
+}
+        .time-card.highlight{ transform: translateY(-6px) scale(1.01); box-shadow: 0 18px 40px rgba(0,0,0,0.18) }
+        .time-card h3 { 
+            font-family:'Cormorant Garamond',serif; 
+            font-size:1.8rem; 
+            margin-top:0; 
+            margin-bottom:.5rem; 
+            color:var(--white); 
+            display:flex; 
+            align-items:center; 
+            gap:.6rem; 
+            border-bottom: 2px solid var(--green-light);
+            padding-bottom: 5px;
+        }
+        .time-card h3 i { color:var(--gold); }
+        .time-card p { margin-top:0.5rem; line-height: 1.5; font-size: 0.95rem; }
+        .time-card a.map-link { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 5px; 
+            color: var(--white); 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        .time-card a.map-link:hover { text-decoration: underline; }
 
-    .caption{
-      color: var(--emerald); /* Emerald Green applied */
-      font-weight: bold; /* Bold applied */
-      font-size: 0.75rem;
-      font-style: italic;
-      text-align: center;
-      margin-top: 8px;
-    }
+        /* ========================================================= */
+        /* --- UPDATED RSVP CONFIRMATION SLIP STYLES FOR LINK --- */
+        /* ========================================================= */
 
-    /* Decorative Hanger (Wire/String Look) */
-    .hanger{
-      width: 100%;
-      height: 0px; 
-      border-top: 1px dashed rgba(255,255,255,0.5); 
-      opacity: .95; 
-      position: relative;
-      margin-top: 20px; 
-    }
+        :root {
+    --emerald-green: #046A38; /* A rich, deep emerald */
+    --gold-accent: #B8860B; /* Darker gold/bronze for elegance */
+    --light-paper: #FAFAF3; /* Slightly off-white/cream paper */
+    --dark-text: #2c3e50; /* Dark text for readability */
+    --hover-green: #014E29; /* Darker emerald for hover */
+}
 
-    /* Small Pin/Clip */
-    .polaroid-frame::before{
-      content: "";
-      position: absolute;
-      top: -10px; 
-      left: 50%;
-      transform: translateX(-50%);
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 6px rgba(0,0,0,0.5);
-      z-index: 10;
-    }
+/* Use the new variables in the styles below */
+:root {
+    --emerald-twilight: #023820; /* Deep, moody emerald/forest green */
+    --gold-accent: #B8860B; /* Darker gold/bronze for elegance */
+    --light-paper: #FAFAF3; /* Soft white/cream for contrast elements */
+    --dark-text: #FAFAF3; /* Text will now be light for contrast against the dark background */
+    --hover-color: #014E29; /* Darker green for hover effects */
+}
+
+/* --- Container (Transparent) --- */
+.rsvp-container{ 
+    display:flex; 
+    justify-content:center; 
+    align-items:center; 
+    width:100%;
+    min-height: 50vh;
+    padding: 2rem 0;
+    background-color: transparent; /* Remains transparent */
+}
+
+/* --- Confirmation Slip (Changed to Emerald Twilight, Floating, Transparent Effect) --- */
+.confirmation-slip {
+    max-width: 600px;
+    width: 90%;
+    padding: 4rem 3rem;
     
-    /* Random Initial Rotation & Swing Animation */
-    .hang.s1{ transform: rotate(var(--initial-rot, -3deg)); animation: swing 6s ease-in-out infinite; transform-origin: top center; }
-    .hang.s2{ transform: rotate(var(--initial-rot, 1deg)); animation: swing 5.3s ease-in-out infinite; transform-origin: top center; animation-delay:.2s }
-    .hang.s3{ transform: rotate(var(--initial-rot, -5deg)); animation: swing 6.8s ease-in-out infinite; animation-delay:.5s }
-    .hang.s4{ transform: rotate(var(--initial-rot, 2deg)); animation: swing 5.8s ease-in-out infinite; animation-delay: .1s }
-
-    @keyframes swing{
-      0%{ transform: rotate(var(--initial-rot, -2deg)) } 
-      50%{ transform: rotate(calc(var(--initial-rot, -2deg) + 5deg)) } 
-      100%{ transform: rotate(var(--initial-rot, -2deg)) } 
-    }
+    /* **CHANGED:** Background to Emerald Twilight with Transparency */
+    background-color: rgba(2, 56, 32, 0.85); /* New color with slight transparency */
+    backdrop-filter: blur(8px); /* Slightly less blur */
+    -webkit-backdrop-filter: blur(8px);
     
-    .polaroid-frame:hover{ 
-      transform: translateY(-6px) scale(1.03) rotate(0deg); 
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
-    }
+    color: var(--dark-text); /* **CHANGED:** Text is now light */
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 12px;
     
-    /* gallery controls */
-    .gallery-controls{ width:100%; display:flex; justify-content:space-between; align-items:center; gap:10px; max-width:1000px; margin:0 auto; padding:0 2% }
-    .gbtn{ background:rgba(0,0,0,0.45); color:var(--white); border:none; font-size:1.4rem; padding:.55rem .85rem; border-radius:10px; cursor:pointer }
-    .gbtn:active{ transform:scale(.98) }
-    /* --- END GALLERY STYLES --- */
-
-    /* celebration & program list */
-    .celebration-grid{ display:flex; flex-wrap:wrap; gap:1.2rem; justify-content:center; align-items:flex-start; max-width:1000px; margin:0 auto; }
-    .program-list{ width:360px; background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)); padding:1.2rem; border-radius:14px; box-shadow: 0 10px 30px rgba(0,0,0,0.25) }
-    .program-list h4{ margin:0 0 10px; font-family:'Cormorant Garamond',serif }
-    .program-items{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:.8rem }
-    .program-item{
-      display:flex; align-items:center; gap:.8rem; padding:.65rem; border-radius:10px; cursor:pointer;
-      transition: transform .28s ease, background .28s ease; position:relative; overflow:hidden;
-    }
-    .program-item:hover{ transform: translateY(-4px); background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); }
-    .program-item .dot{
-      width:48px; height:48px; border-radius:12px; background:linear-gradient(180deg,var(--white), #f7f7f7); display:flex; align-items:center; justify-content:center; flex-shrink:0;
-      box-shadow: 0 8px 22px rgba(0,0,0,0.18);
-      transition: transform .18s ease;
-    }
-    .program-item .time{ font-weight:700; font-family:'Cormorant Garamond',serif; color:var(--green-dark) }
-    .program-item .label{ font-size:.98rem; opacity:.95; font-family:'Montserrat',sans-serif; color:rgba(255,255,255,0.95) }
-
-    /* doodle animation (SVG inline) on each item reveal */
-    .doodle { width:36px; height:36px; display:block; transform:scale(.9); opacity:.95; transition:transform .4s ease }
-    .program-item:hover .doodle{ transform:scale(1.08) rotate(4deg) }
-
-    /* timeline cards (for anchors) */
-    .timeline{ flex:1 1 520px; padding:1rem; display:flex; flex-direction:column; gap:.8rem; }
-    .time-card{ background:rgba(255,255,255,0.95); color:var(--green-dark); padding:1rem 1.1rem; border-radius:12px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); transition:transform .28s ease, box-shadow .28s ease; }
-    .time-card.highlight{ transform: translateY(-6px) scale(1.01); box-shadow: 0 18px 40px rgba(0,0,0,0.18) }
-
-    /* RSVP box center */
-    .rsvp-container{ display:flex; justify-content:center; align-items:center; width:100% }
-    .rsvp-card{
-      max-width:600px; width:100%; padding:1.3rem; border-radius:14px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,250,0.95));
-      color:var(--green-dark); margin:0 auto; box-shadow: 0 18px 50px rgba(0,0,0,0.18); text-align:center;
-    }
-    .rsvp-card h2{ font-family:'Great Vibes',cursive; margin:.2rem 0 6px; font-size:2.4rem; color:var(--green-dark) }
-    .rsvp-card p{ margin:.2rem 0 12px; color:rgba(0,0,0,0.6) }
-
-    .rsvp-input{ width:92%; padding:.65rem; margin:.45rem 0; border-radius:10px; border:1px solid rgba(45,106,79,0.12); font-size:1rem }
+    /* Enhanced floating shadow (using a dark shadow against a dark background is subtle, but works) */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1) inset; 
     
-    /* HANDWRITTEN FONT STYLE FOR TEXTAREA */
-    #rsvpMsg {
-        font-family: 'Caveat', cursive; 
-        font-size: 1.2rem; 
-        color: var(--green-dark); 
-        font-weight: 500;
-    }
+    border: none;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    font-size: 1.1rem;
+    z-index: 10;
+}
 
-    .rsvp-submit{ background:linear-gradient(90deg,var(--green-light), #c1e6c9); color:var(--green-dark); border:none; padding:.7rem 1.05rem; border-radius:30px; cursor:pointer; font-weight:700; box-shadow:0 8px 20px rgba(43,100,66,0.14) }
+/* --- REMOVED: Top tear-off effect ::before --- */
+.confirmation-slip::before {
+    content: none; 
+}
 
-    /* footer */
-    footer{ padding:2rem 1rem; text-align:center; color:rgba(255,255,255,0.95); font-family:'Great Vibes',cursive; background:linear-gradient(180deg,rgba(0,0,0,0.06), transparent) }
+/* --- Header Styles --- */
+.slip-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    line-height: 1.2;
+}
 
-    /* responsive tweaks */
-    @media (max-width:880px){
-      .hero h1{ font-size:2.6rem }
-      .hero-initials{ font-size:8.2rem }
-      .slides{ gap:8% }
-      .slides .hang{ width:200px; flex:0 0 200px }
-      .polaroid-frame{ padding: 8px 8px 24px 8px; }
-      .photo{ height: 140px }
-      .program-list{ width:100% }
-      .timeline{ order:2 }
+.slip-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.6rem;
+    margin: 0 0 0.5rem;
+    color: var(--gold-accent); /* CHANGED: Primary header now gold for contrast */
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+.slip-header h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    margin: 0 0 1.5rem;
+    color: var(--light-paper); /* Sub-header is light paper color */
+    font-weight: 400;
+}
+
+.slip-header p {
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0;
+    color: var(--dark-text); /* Text is light */
+    line-height: 1.7;
+    max-width: 80%;
+    margin: 0.75rem auto 0;
+}
+
+/* --- Call to Action Button --- */
+.rsvp-call-to-action {
+    display: block;
+    width: 80%;
+    margin: 3.5rem auto 0;
+    background: var(--gold-accent); /* **CHANGED:** Button background is gold */
+    color: var(--emerald-twilight); /* **CHANGED:** Button text is the dark background color */
+    border: 2px solid var(--light-paper); /* Light border */
+    padding: 1.2rem 1.8rem;
+    border-radius: 50px;
+    cursor: pointer; 
+    font-weight: 700; 
+    box-shadow: 0 6px 15px rgba(184, 134, 11, 0.4); /* Gold-tinted shadow */
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1.8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.rsvp-call-to-action:hover {
+    background: var(--light-paper); /* Hover to light paper */
+    color: var(--emerald-twilight); 
+    border-color: var(--gold-accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(184, 134, 11, 0.7);
+}
+
+/* --- STAMP ACCENT --- */
+.certified-stamp {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    transform: rotate(5deg);
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--light-paper); /* **CHANGED:** Stamp border is light */
+    color: var(--light-paper); /* **CHANGED:** Stamp text is light */
+    background-color: transparent;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    opacity: 0.9;
+    z-index: 1;
+}
+
+/* ======================================= */
+/* --- FALLING PETALS ANIMATION STYLES --- */
+/* ======================================= */
+
+/* The individual petal style */
+.petal {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: var(--gold-accent); /* **CHANGED:** Petals are gold to stand out */
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    animation: petal-fall linear infinite;
+    transform: rotate(0deg);
+}
+
+/* Varying sizes and colors for a natural look */
+.petal:nth-child(2n) {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(184, 134, 11, 0.8); /* Slightly transparent gold */
+    animation-duration: 10s;
+}
+.petal:nth-child(3n) {
+    width: 8px;
+    height: 8px;
+    background-color: var(--light-paper); /* **CHANGED:** Light paper/white petal */
+    animation-duration: 8s;
+}
+.petal:nth-child(5n) {
+    width: 18px;
+    height: 18px;
+    animation-duration: 15s;
+}
+
+/* Define the falling and wiggling motion (no change) */
+@keyframes petal-fall {
+    0% {
+        top: -10%;
+        transform: translateX(0) rotate(0deg);
+        opacity: 1;
     }
-    @media (max-width:520px){
-      .main-nav ul{ gap:.7rem }
-      .hero h1{ font-size:2.2rem }
-      .hero h2{ font-size:1.05rem }
-      .hero-initials{ font-size:6rem }
-      .slides{ padding:3% 4% }
-      .slides .hang{ width:160px; flex:0 0 160px }
-      .polaroid-frame{ padding: 6px 6px 20px 6px; }
-      .photo{ height: 110px }
-      .time-unit { min-width:80px; padding:.5rem .6rem; }
-      .time-value{ font-size:1.4rem; }
+    100% {
+        top: 110%;
+        transform: translateX(20px) rotate(360deg);
+        opacity: 0;
     }
-  </style>
+}
+
+/* Initial positions and animation delay (no change) */
+.petal:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 10s; }
+.petal:nth-child(2) { left: 25%; animation-delay: 3s; animation-duration: 12s; }
+.petal:nth-child(3) { left: 40%; animation-delay: 6s; animation-duration: 8s; }
+.petal:nth-child(4) { left: 60%; animation-delay: 9s; animation-duration: 14s; }
+.petal:nth-child(5) { left: 75%; animation-delay: 1s; animation-duration: 9s; }
+.petal:nth-child(6) { left: 90%; animation-delay: 4s; animation-duration: 11s; }
+.petal:nth-child(7) { left: 5%; animation-delay: 7s; animation-duration: 13s; }
+.petal:nth-child(8) { left: 50%; animation-delay: 2s; animation-duration: 15s; }
+        
+        /* --- END UPDATED RSVP CONFIRMATION SLIP STYLES --- */
+
+        /* footer */
+        footer{ padding:2rem 1rem; text-align:center; color:rgba(255,255,255,0.95); font-family:'Great Vibes',cursive; background:linear-gradient(180deg,rgba(0,0,0,0.06), transparent) }
+
+        /* responsive tweaks */
+        @media (max-width:880px){
+            .hero h1{ font-size:2.6rem }
+            .hero-initials{ font-size:7.5rem }
+            .slides{ gap:8% }
+            .slides .hang{ width:200px; flex:0 0 200px }
+            .polaroid-frame{ padding: 8px 8px 24px 8px; }
+            .photo{ height: 140px }
+            .program-list{ width:100% }
+            .timeline{ order:2 }
+            .section h2{ font-size:2.8rem } /* Adjust main titles */
+            #invitation h2 {
+                font-size: clamp(2.8rem, 8vw, 4rem); 
+            }
+            /* Passbook Adjustments */
+            .passbook {
+                width: 90vw;
+                max-width: 480px; 
+                height: calc(90vw * 420 / 600); /* Maintain aspect ratio */
+                max-height: calc(480px * 420 / 600);
+                /* border-left: 10px solid rgba(255,255,255,0.7); */
+            }
+            .passbook-page img {
+                max-width: 95%; /* Adjust for smaller screens */
+                max-height: 95%;
+            }
+            .passbook-nav {
+                font-size: 1.8rem;
+                height: 40px;
+                padding: 0 0.8rem;
+            }
+            .confirmation-slip {
+                max-width: 90vw;
+            }
+        }
+        @media (max-width:520px){
+            .main-nav ul{ gap:.7rem }
+            .hero h1{ font-size:2.2rem }
+            .hero h2{ font-size:1.05rem }
+            .hero-initials{ font-size:4rem }
+            .slides{ padding:3% 4% }
+            .slides .hang{ width:160px; flex:0 0 160px }
+            .polaroid-frame{ padding: 6px 6px 20px 6px; }
+            .photo{ height: 110px }
+            .time-unit {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(6px); /* subtle glass effect */
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            min-width: 100px;
+            flex: 1 1 50px; /* ✅ auto resizes across screen sizes */
+            max-width: 100px;
+            text-align: center;
+            transition: transform 0.3s ease;}
+            
+                .time-unit:hover {
+                transform: scale(1.05);
+                }
+            .time-unit {
+            min-width: 55px;
+            padding: 0.8rem 0.2rem;
+            border-radius: 12px;
+    }
+            .time-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem); /* ✅ responsive font size */
+            font-weight: 700;
+            color: var(--green-light);
+            display: block;
+            }
+            /* Passbook Adjustments */
+            .passbook {
+                width: 95vw;
+                max-width: 320px; 
+                height: calc(95vw * 420 / 600); 
+                max-height: calc(320px * 420 / 600);
+            }
+            .passbook-page img {
+                max-width: 95%; /* Adjust for smaller screens */
+                max-height: 95%;
+            }
+            .confirmation-slip {
+                padding: 2rem 1rem;
+            }
+            .slip-header h3 {
+                font-size: 1.4rem;
+            }
+            .certified-stamp {
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <nav class="main-nav" id="nav">
-    <ul>
-      <li><a href="#home" class="nav-link active">Home</a></li>
-      <li><a href="#invitation" class="nav-link">Invitation</a></li> <li><a href="#story" class="nav-link">Our Story</a></li>
-      <li><a href="#gallery" class="nav-link">Gallery</a></li>
-      <li><a href="#celebration" class="nav-link">The Celebration</a></li>
-      <li><a href="#rsvp" class="nav-link">RSVP</a></li>
-    </ul>
-  </nav>
-
-  <div class="petals" aria-hidden="true"></div>
-
-  <header class="hero" id="home" role="banner">
-    <div class="hero-initials">F &amp; J</div>
-
-    <div class="hero-content" role="main" aria-labelledby="hero-title">
-      <h1 style="font-size:100px" id="hero-title">Fritz Bernard &amp; Joana Queen</h1>
-      <h2>We're getting married!</h2>
-      <h3>November 28, 2025 &nbsp;•&nbsp; Dumaguete City</h3>
-
-      <div class="countdown" aria-live="polite" aria-atomic="true">
-        <div class="time-unit"><div class="time-value" id="days">00</div><div class="time-label">Days</div></div>
-        <div class="time-unit"><div class="time-value" id="hours">00</div><div class="time-label">Hours</div></div>
-        <div class="time-unit"><div class="time-value" id="minutes">00</div><div class="time-label">Minutes</div></div>
-        <div class="time-unit"><div class="time-value" id="seconds">00</div><div class="time-label">Seconds</div></div>
-      </div>
-      <h2 id="countdownStatus">Until we say "I DO"</h2>
-    </div>
-  </header>
-
-  <section class="section section-light" id="invitation">
-    <h2>Official Invitation</h2>
-    <div id="invitation-content">
-        <h3>Join Our Hearts</h3>
-        <p>You are cordially invited to witness the solemnizing of the Holy Matrimony uniting Fritz Bernard and Joana Queen.</p>
-
-        <div class="location-details">
-            <p><strong>Church Ceremony:</strong> Our Mother of Perpetual Help Redemptorist – Dumaguete<br>2:00 PM</p>
-            <p><strong>Reception:</strong> The Baly Oriental Hotel – Dumaguete<br>4:30 PM</p>
-        </div>
+<div id="invitation-cover">
+    
+    <div class="text-group">
         
-        <p style="margin-top: 1.5rem; color: rgba(0,0,0,0.7);">Your presence and prayers would make this day truly complete. We look forward to celebrating with you!</p>
+        <h1 class="cover-title">Two Hearts. One Story. One Beautiful "I do."</h1>
+        <p class="cover-to-text"><em>You're invited to the wedding of</em></p>
+        <h2 class="cover-names">Fritz & Joana</h2>
+            <br>
+<!--            <span class="big-day-text">Wedding</span> */  -->
     </div>
-  </section>
-
-  <section class="section section-dark" id="story">
-    <h2>Our Journey</h2>
-
-    <div class="story-grid" style="margin-top:40px;">
-      <div class="story-card">
-        <img src="college day.jpg" alt="College Days">
-        <img src="college days.jpg" alt="College Days">
-        <h3>College Days</h3>
-        <p>In college, they were just two faces in the same class photos—Fritz always ending up behind Joana—but they never really spoke. Life moved forward, each with their own paths.</p>
-      </div>
-
-      <div class="story-card">
-        <img src="8R302075 (61).jpg" alt="Fate Reunited">
-        <h3>Fate Brings Us Back</h3>
-        <p>Years later, after long relationships and single seasons, fate found its way back into their story. A simple Instagram reply became the spark that changed everything.</p>
-      </div>
-
-      <div class="story-card">
-        <img src="8R302075 (112).jpg" alt="Adventures Together">
-        <h3>Adventures Together</h3>
-        <p>From island trips to late-night talks, every adventure brought them closer. Each laugh and every shared moment became the building blocks of something special.</p>
-      </div>
-
-      <div class="story-card">
-        <img src="the yes.jpg" alt="The Proposal">
-        <h3>The Proposal</h3>
-        <p>By December 2024, Fritz could no longer hold back. In the most unplanned and unexpected moment, he proposed. Not grand, not scripted, but perfectly them.</p>
-      </div>
-    </div>
-  </section>
-
-
-  <section class="section section-light" id="gallery">
-    <h2>Captured Moments</h2>
-
-    <div class="gallery-wrap">
-      <div class="gallery-stage">
-        <div class="slides" id="slides" aria-live="polite" aria-label="Photo gallery">
-          <div class="hang s1" role="group" aria-label="Photo 1" style="--initial-rot: -3deg;">
-            <div class="hanger" aria-hidden="true"></div>
-            <div class="polaroid-frame">
-              <div class="photo" style="background-image:url('8R302075 (29).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
-              <div class="caption">Happy</div>
-            </div>
-          </div>
-
-          <div class="hang s2" role="group" aria-label="Photo 2" style="--initial-rot: 1deg;">
-            <div class="hanger" aria-hidden="true"></div>
-            <div class="polaroid-frame">
-              <div class="photo" style="background-image:url('8R302075 (38).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
-              <div class="caption">Ever</div>
-            </div>
-          </div>
-
-          <div class="hang s3" role="group" aria-label="Photo 3" style="--initial-rot: -5deg;">
-            <div class="hanger" aria-hidden="true"></div>
-            <div class="polaroid-frame">
-              <div class="photo" style="background-image:url('8R302075 (57).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
-              <div class="caption">After</div>
-            </div>
-          </div>
-
-          <div class="hang s4" role="group" aria-label="Photo 4" style="--initial-rot: 2deg;">
-            <div class="hanger" aria-hidden="true"></div>
-            <div class="polaroid-frame">
-              <div class="photo" style="background-image:url('8R302075 (6).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
-              <div class="caption">Begins</div>
-            </div>
-          </div>
-          
-          <div class="hang s1" role="group" aria-label="Photo 5" style="--initial-rot: -1deg;">
-            <div class="hanger" aria-hidden="true"></div>
-            <div class="polaroid-frame">
-              <div class="photo" style="background-image:url('8R302075 (70).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
-              <div class="caption">With</div>
-            </div>
-          </div>
-
-          <div class="hang s2" role="group" aria-label="Photo 6" style="--initial-rot: 4deg;">
-            <div class="hanger" aria-hidden="true"></div>
-            <div class="polaroid-frame">
-              <div class="photo" style="background-image:url('8R302075 (109).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
-              <div class="caption">Saying</div>
-            </div>
-          </div>
-
-          <div class="hang s3" role="group" aria-label="Photo 7" style="--initial-rot: -2deg;">
-            <div class="hanger" aria-hidden="true"></div>
-            <div class="polaroid-frame">
-              <div class="photo" style="background-image:url('8R302075 (112).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
-              <div class="caption">"I</div>
-            </div>
-          </div>
-
-          <div class="hang s3" role="group" aria-label="Photo 8" style="--initial-rot: -2deg;">
-            <div class="hanger" aria-hidden="true"></div>
-            <div class="polaroid-frame">
-              <div class="photo" style="background-image:url('8R302075 (89).jpg');" role="img" aria-label="Photo of Fritz and Joana"></div>
-              <div class="caption">Do"!</div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="gallery-controls" aria-hidden="false">
-        <button class="gbtn" id="prevBtn" aria-label="Previous photo">&larr;</button>
-        <div style="flex:1" aria-hidden="true"></div>
-        <button class="gbtn" id="nextBtn" aria-label="Next photo">&rarr;</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-dark" id="celebration">
-    <h2>The Celebration</h2>
-
-    <div class="celebration-grid">
-      <aside class="program-list" aria-label="Program list">
-        <h4 style="margin-bottom:.6rem; color:var(--white)">Program of Activities</h4>
-        <ul class="program-items" id="programList">
-          <li class="program-item" data-target="t1" tabindex="0" role="button" aria-pressed="false">
-            <div class="dot" aria-hidden="true">
-              <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C13 5 16 5 18 7C14 9 14 12 12 15C10 12 10 9 6 7C8 5 11 5 12 2Z" stroke="#2b6a45" stroke-width="0.9" fill="#fff"/>
-              </svg>
-            </div>
-            <div style="display:flex;flex-direction:column;">
-              <div class="time">2:00 PM</div>
-              <div class="label">Church Ceremony</div>
-            </div>
-          </li>
-
-          <li class="program-item" data-target="t2" tabindex="0" role="button" aria-pressed="false">
-            <div class="dot" aria-hidden="true">
-              <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 3C8 3 9.5 5 12 6C14.5 5 16 3 18 3C16 6 13 7 12 10C11 7 8 6 6 3Z" stroke="#2b6a45" stroke-width="0.9" fill="#fff"/>
-              </svg>
-            </div>
-            <div style="display:flex;flex-direction:column;">
-              <div class="time">4:30 PM</div>
-              <div class="label">Reception &amp; Pica-pica</div>
-            </div>
-          </li>
-
-          <li class="program-item" data-target="t3" tabindex="0" role="button" aria-pressed="false">
-            <div class="dot" aria-hidden="true">
-              <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="12" cy="8" r="3" fill="#fff" stroke="#2b6a45" stroke-width="0.9"/>
-              </svg>
-            </div>
-            <div style="display:flex;flex-direction:column;">
-              <div class="time">5:30 PM</div>
-              <div class="label">Reception Program</div>
-            </div>
-          </li>
-
-          <li class="program-item" data-target="t4" tabindex="0" role="button" aria-pressed="false">
-            <div class="dot" aria-hidden="true">
-              <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="6" y="4" width="12" height="6" rx="2" fill="#fff" stroke="#2b6a45" stroke-width="0.9"/>
-              </svg>
-            </div>
-            <div style="display:flex;flex-direction:column;">
-              <div class="time">6:00 PM</div>
-              <div class="label">Dinner</div>
-            </div>
-          </li>
-
-          <li class="program-item" data-target="t5" tabindex="0" role="button" aria-pressed="false">
-            <div class="dot" aria-hidden="true">
-              <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 12C6 10 9 11 12 8C15 11 18 10 20 12" stroke="#2b6a45" stroke-width="0.9" fill="#fff"/>
-              </svg>
-            </div>
-            <div style="display:flex;flex-direction:column;">
-              <div class="time">7:00 PM</div>
-              <div class="label">Entertainment &amp; Fun Games</div>
-            </div>
-          </li>
-
-          <li class="program-item" data-target="t6" tabindex="0" role="button" aria-pressed="false">
-            <div class="dot" aria-hidden="true">
-              <svg class="doodle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 9C8 5 16 5 18 9" stroke="#2b6a45" stroke-width="0.9" fill="#fff"/>
-              </svg>
-            </div>
-            <div style="display:flex;flex-direction:column;">
-              <div class="time">8:00 PM</div>
-              <div class="label">After Party</div>
-            </div>
-          </li>
+    
+    <button a href="home" id="open-invitation-btn">Open Our Invitation</button>
+</div>
+    <nav class="main-nav" id="nav">
+        <ul>
+            <li><a href="#home" class="nav-link active">Home</a></li>
+            <li><a href="#invitation" class="nav-link">Invitation</a></li> 
+            <li><a href="#story" class="nav-link">Our Story</a></li>
+            <li><a href="#gallery" class="nav-link">Gallery</a></li>
+            <li><a href="#celebration" class="nav-link">The Celebration</a></li>
+            <li><a href="#rsvp" class="nav-link">RSVP</a></li>
         </ul>
-      </aside>
+    </nav>
 
-      <div class="timeline" id="timeline">
-        <div class="time-card" id="t1">
-          <h4 style="margin:0 0 6px;">Church Ceremony</h4>
-          <p style="margin:0; font-weight:700">2:00 PM</p>
-          <p style="margin:.5rem 0 0; color: rgba(0,0,0,0.6)">Our Mother of Perpetual Help Redemptorist – Dumaguete</p>
+    <div class="petals" aria-hidden="true"></div>
+
+    <header class="hero" id="home" role="banner">
+        <div class="hero-initials">F & J</div>
+
+        <div class="hero-content" role="main" aria-labelledby="hero-title">
+            <h1 id="hero-title" style="font-size: clamp(2.2rem, 10vw, 6.2rem);">Fritz Bernard</h1>
+            <h1 id="hero-title" style="font-size: clamp(2.2rem, 10vw, 6.2rem);">&</h1>
+            <h1 id="hero-title" style="font-size: clamp(2.2rem, 10vw, 6.2rem);">Joana Queen</h1>
+            <h2>We're getting married!</h2>
+            <h3>&nbsp;•&nbsp; November 28, 2025 &nbsp;•&nbsp;</h3>
+
+            <div class="countdown" aria-live="polite" aria-atomic="true">
+                <div class="time-unit"><div class="time-value" id="days">00</div><div class="time-label">Days</div></div>
+                <div class="time-unit"><div class="time-value" id="hours">00</div><div class="time-label">Hours</div></div>
+                <div class="time-unit"><div class="time-value" id="minutes">00</div><div class="time-label">Minutes</div></div>
+                <div class="time-unit"><div class="time-value" id="seconds">00</div><div class="time-label">Seconds</div></div>
+            </div>
+            <h2 id="countdownStatus">Until we say "I DO"</h2>
         </div>
-        <div class="time-card" id="t2">
-          <h4 style="margin:0 0 6px;">Reception &amp; Pica-pica</h4>
-          <p style="margin:0; font-weight:700">4:30 PM</p>
-          <p style="margin:.5rem 0 0; color: rgba(0,0,0,0.6)">The Baly Oriental Hotel – Dumaguete</p>
+    </header>
+
+    <section class="section section-light" id="invitation">
+        <h2>Official Invitation</h2>
+
+        <div class="passbook-wrapper">
+            <div class="passbook" id="passbook">
+                <div class="passbook-slides" id="passbookSlides">
+                    <div class="passbook-page" role="group" aria-label="Invitation Page 1">
+                        <img src="passbook 1.png" alt="Formal Invitation Content">
+                    </div>
+                    <div class="passbook-page" role="group" aria-label="Invitation Page 2">
+                        <img src="passbook 2.png" alt="Church Ceremony Details">
+                    </div>
+                    <div class="passbook-page" role="group" aria-label="Invitation Page 3">
+                        <img src="passbook 3.png" alt="Reception Venue Information">
+                    </div>
+                    <div class="passbook-page" role="group" aria-label="Invitation Page 4">
+                        <img src="passbook 4.png" alt="Attire and Gift Registry">
+                    </div>
+                    <div class="passbook-page" role="group" aria-label="Invitation Page 5">
+                        <img src="passbook 5.png" alt="Groom's & Bride's Families">
+                    </div>
+                </div>
+                
+                <button class="passbook-nav prev-nav" id="prevPageBtn" aria-label="Previous Page">‹</button>
+                <button class="passbook-nav next-nav" id="nextPageBtn" aria-label="Next Page">›</button>
+            </div>
+            <div id="pageCounter" class="page-counter">1 / 5</div>
         </div>
-        <div class="time-card" id="t3">
-          <h4 style="margin:0 0 6px;">Reception Program</h4>
-          <p style="margin:0; font-weight:700">5:30 PM</p>
-          <p style="margin:.5rem 0 0; color: rgba(0,0,0,0.6)">Speeches, toasts, and dancing.</p>
+        </section>
+
+    <section class="section section-dark" id="story">
+        <h2>Our Journey</h2>
+
+        <div class="story-grid" style="margin-top:40px;">
+            <div class="story-card">
+                <img src="college days.jpg" alt="College Days">
+                <img src="college days 2.jpg" alt="College Days">
+                <h3 style="text-align: justify;">College Days</h3>
+                <p style="text-align: justify;">They went to the same university, shared the same classrooms, and even appeared in the same class photos — yet never once spoke. Fritz was always the guy standing right behind Joana in every picture, like a quiet shadow fate refused to erase. Then life happened — they graduated, moved on, and forgot each other existed.</p>
+            </div>
+
+            <div class="story-card">
+                <img src="IMG_1738.JPG" alt="Fate Reunited">
+                <h3>Fate Brings Us Back</h3>
+                <p style="text-align: justify;">Fast forward a few years: both single, both minding their own business. In 2023, Fritz tried to message Joana — just a friendly “hi.” Nothing. Seen-zoned. End of story. Or so he thought.</p>
+            </div>
+
+            <div class="story-card">
+                <img src="IMG_1835.JPG" alt="A New Year, A New Beginning">
+                <h3>A New Year, A New Beginning</h3>
+                <p style="text-align: justify;">New Year’s Eve came around, and while Joana was busy eating twelve grapes under the table (yes, literally under the table 🤣), fate was busy planning a comeback. The next day, she posted something random on Instagram — and who else would reply but the same guy from those class photos: Fritz Bernard.</p>
+            </div>
+            <div class="story-card">
+                <img src="the yes.jpg" alt="From College Hallways to Forever's Aisle">
+                <h3>Yes to a Lifetime</h3>
+                <p style="text-align: justify;">From that small message, everything started to fall into place. One conversation led to another, and before they knew it, they were writing a story neither expected to begin. By the end of 2024, in the most unplanned moment ever, Fritz proposed. No drama. No script. Just two people who finally found each other — after years of standing in the same frame.</p>
+            </div>
+        
+        
+        
         </div>
-        <div class="time-card" id="t4">
-          <h4 style="margin:0 0 6px;">Dinner</h4>
-          <p style="margin:0; font-weight:700">6:00 PM</p>
-          <p style="margin:.5rem 0 0; color: rgba(0,0,0,0.6)">A plated dinner with local favorites.</p>
+    </section>
+
+    
+
+    <section class="section section-light" id="gallery">
+        <h2>Photo Gallery</h2>
+
+        <div class="gallery-wrap">
+            <div class="hanger"></div>
+            <div class="gallery-stage">
+                <div class="slides" id="gallerySlides">
+                    <div class="hang s1" style="--initial-rot: -3deg;">
+                        <div class="polaroid-frame">
+                            <div class="photo" style="background-image: url('8R302075 (38).jpg');"></div>
+                            <div class="caption">From</div>
+                        </div>
+                    </div>
+                    <div class="hang s2" style="--initial-rot: 1deg;">
+                        <div class="polaroid-frame">
+                            <div class="photo" style="background-image: url('8R302075 (57).jpg');"></div>
+                            <div class="caption">College</div>
+                        </div>
+                    </div>
+                    <div class="hang s3" style="--initial-rot: 5deg;">
+                        <div class="polaroid-frame">
+                            <div class="photo" style="background-image: url('8R302075 (61).jpg');"></div>
+                            <div class="caption">Hallways</div>
+                        </div>
+                    </div>
+                    <div class="hang s4" style="--initial-rot: -2deg;">
+                        <div class="polaroid-frame">
+                            <div class="photo" style="background-image: url('8R302075 (70).jpg');"></div>
+                            <div class="caption">To</div>
+                        </div>
+                    </div>
+                     <div class="hang s1" style="--initial-rot: 4deg;">
+                        <div class="polaroid-frame">
+                            <div class="photo" style="background-image: url('8R302075 (89).jpg');"></div>
+                            <div class="caption">Forever's</div>
+                        </div>
+                    </div>
+                    <div class="hang s2" style="--initial-rot: -1deg;">
+                        <div class="polaroid-frame">
+                            <div class="photo" style="background-image: url('8R302075 (109).jpg');"></div>
+                            <div class="caption">Aisle</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-controls">
+                <button class="gbtn" id="prevGalleryBtn" aria-label="Previous Photo"><i class="fas fa-chevron-left"></i></button>
+                <button class="gbtn" id="nextGalleryBtn" aria-label="Next Photo"><i class="fas fa-chevron-right"></i></button>
+            </div>
         </div>
-        <div class="time-card" id="t5">
-          <h4 style="margin:0 0 6px;">Entertainment &amp; Fun Games</h4>
-          <p style="margin:0; font-weight:700">7:00 PM</p>
-          <p style="margin:.5rem 0 0; color: rgba(0,0,0,0.6)">Get ready to laugh & play!</p>
+
+    </section>
+
+    
+
+    <section class="section section-dark" id="celebration">
+        <h2>The Celebration</h2>
+
+        <div class="celebration-grid">
+            
+            <div class="program-list">
+                <h4>Ceremony & Reception Program</h4>
+                <ul class="program-items">
+                    <li class="program-item" data-target="church-card">
+                        <div class="dot"><span class="time">2:00 PM</span></div>
+                        <div class="label"><i class="fas fa-cross doodle"></i> &nbsp;Church Ceremony</div>
+                    </li>
+                    <li class="program-item" data-target="reception-card">
+                        <div class="dot"><span class="time">4:30 PM</span></div>
+                        <div class="label"><i class="fas fa-champagne-glasses doodle"></i> &nbsp;Reception Venue Opens</div>
+                    </li>
+                    <li class="program-item">
+                        <div class="dot"><span class="time">5:00 PM</span></div>
+                        <div class="label"><i class="fas fa-glass-cheers doodle"></i> &nbsp; Cocktail Hour</div>
+                    </li>
+                    <li class="program-item">
+                        <div class="dot"><span class="time">5:30 PM</span></div>
+                        <div class="label"><i class="fas fa-bell-concierge doodle"></i> &nbsp; Reception Proper Begins</div>
+                    </li>
+                    <li class="program-item">
+                        <div class="dot"><span class="time">6:00 PM</span></div>
+                        <div class="label"><i class="fas fa-utensils doodle"></i> &nbsp; Dinner Service</div>
+                    </li>
+                    <li class="program-item">
+                        <div class="dot"><span class="time">7:00 PM</span></div>
+                        <div class="label"><i class="fas fa-heart doodle"></i> &nbsp; Program Activities & Dances</div>
+                    </li>
+                    <li class="program-item">
+                        <div class="dot"><span class="time">8:30 PM</span></div>
+                        <div class="label"><i class="fas fa-compact-disc doodle"></i> &nbsp; After Party Begins</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="timeline">
+                <div class="time-card" id="church-card">
+                    <h3><i class="fas fa-church"></i> THE CEREMONY</h3>
+                    <p><strong>Venue:</strong> Our Mother of Perpetual Help Parish - Redemptorist Church</p>
+                    <p><strong>Time:</strong> 2:00 PM</p>
+                    <p>We invite you to witness the sacred union of our vows in the presence of God.</p>
+                    <a href="https://shorturl.at/eRKht" target="_blank" class="map-link">
+                        <i class="fas fa-map-location-dot"></i> View Map & Get Directions
+                    </a>
+                </div>
+
+                <div class="time-card" id="reception-card">
+                    <h3><i class="fas fa-city"></i> THE RECEPTION</h3>
+                    <p><strong>Venue:</strong> The Baly Oriental Hotel</p>
+                    <p><strong>Time:</strong> 4:30 PM (Venue opens)</p>
+                    <p>Join us as we celebrate our first moments as husband and wife with a grand feast and unforgettable party.</p>
+                    <a href="https://shorturl.at/x9JNh" target="_blank" class="map-link">
+                        <i class="fas fa-map-location-dot"></i> View Map & Get Directions
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="time-card" id="t6">
-          <h4 style="margin:0 0 6px;">After Party</h4>
-          <p style="margin:0; font-weight:700">8:00 PM</p>
-          <p style="margin:.5rem 0 0; color: rgba(0,0,0,0.6)">Music and dancing late into the night.</p>
+    </section>
+
+
+
+    <section class="section section-light" id="rsvp">
+        <h2>Your Presence, Our Joy</h2>
+
+        <div class="rsvp-container">
+    <div class="confirmation-slip">
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        
+        <div class="certified-stamp">RSVP REQUIRED</div>
+        <div class="slip-header">
+            <h3>The Wedding of</h3>
+            <h4>Fritz & Joana</h4> <p>Kindly send your RSVP by the date noted. Our hearts (and seating chart) are waiting for your reply. 💌</p>
         </div>
-      </div>
+        
+        <a href="https://forms.gle/5ZfiZYnWNp9awq9R7" class="rsvp-call-to-action">RSVP</a>
+        <span></span>
+        <div class="story-cards" style="margin-top: 50px;">
+            <h4>Gifting🎀</h4> <p style="text-align: justify;">Your presence is truly the best gift we could ask for 💝
+                 But if you’d like to add a touch of extra love, a 💌 thoughtful token toward our journey together would be amazing. 
+                 Prefer something wrapped 🎁? We’ll cherish it just as much! ✨
+                We’re deeply grateful for your time, kindness, and love. ✨</p>
+    
     </div>
-  </section>
-
-  <section class="section section-light" id="rsvp">
-    <h2>Kindly RSVP</h2>
-    <div class="rsvp-container" style="padding-top:10px; padding-bottom:10px;">
-      <div class="rsvp-card" role="form" aria-labelledby="rsvp-title">
-        <h2 id="rsvp-title">Will you celebrate with us?</h2>
-        <p>Please confirm attendance by **November 8, 2025**.</p>
-
-        <form id="rsvpForm" novalidate>
-          <input class="rsvp-input" id="rsvpName" type="text" placeholder="Your full name" required />
-          <br />
-          <select class="rsvp-input" id="rsvpAttend" required>
-            <option value="" disabled selected hidden>Will you attend?</option>
-            <option value="yes">Yes — I'll be there</option>
-            <option value="no">Sorry — can't make it</option>
-          </select>
-          <br />
-          <textarea id="rsvpMsg" class="rsvp-input" rows="3" placeholder="Got a wish or advice? Write it here:"></textarea>
-          <br />
-          <button class="rsvp-submit" type="submit">Send</button>
-        </form>
-
-        <div id="rsvpThanks" style="display:none; margin-top:12px; color:var(--green-dark)"></div>
-      </div>
     </div>
-  </section>
 
-  <style>
-    /* make the placeholder grey */
-    #rsvpAttend option[disabled] {
-      color: #888; /* grey color */
-    }
-  </style>
+    </div>
 
+    </section>
 
-  <footer>
-    <p style="margin:0 .2rem;">With love, Fritz &amp; Joana</p>
-    <small style="opacity:.9; display:block; margin-top:.6rem">#FinallyFritzAndJoana</small>
-  </footer>
+    <footer>
+        <p>With love, Fritz & Joana. &nbsp; | &nbsp; November 28, 2025</p>
+    </footer>
 
-  <script>
-    /*********************
-      * Petals generator
-      *********************/
-    (function createPetals(){
-      try {
-        const container = document.querySelector('.petals');
-        if(!container) return;
-        const count = 16; 
-        for(let i=0;i<count;i++){
-          const el = document.createElement('div');
-          el.className = 'petal';
-          const left = Math.random()*100; 
-          const size = 16 + Math.random()*28; 
-          el.style.width = size + 'px';
-          el.style.height = Math.round(size * 0.85) + 'px';
-          el.style.left = left + 'vw';
-          el.style.top = (-10 - Math.random()*20) + 'vh';
-          const dur = 7 + Math.random()*10;
-          el.style.animationDuration = dur + 's, ' + (4 + Math.random()*4) + 's';
-          el.style.animationDelay = (Math.random()*-6) + 's';
-          el.style.opacity = 0.7 + Math.random()*0.25;
-          el.style.transform = 'rotate(' + (Math.random()*40 - 20) + 'deg)';
-          el.style.left = `calc(${left}vw + ${Math.random()*6 - 3}px)`;
-          container.appendChild(el);
-        }
-      } catch(e){
-        console.error('Petals generator error', e);
-      }
-    })();
+    <script>
+       
 
-    /*********************
-      * Countdown
-      *********************/
-    (function countDown(){
-      try {
-        const target = new Date("November 28, 2025 14:00:00").getTime();
-        const dEl = document.getElementById('days'), hEl = document.getElementById('hours'), mEl = document.getElementById('minutes'), sEl = document.getElementById('seconds');
-        const status = document.getElementById('countdownStatus');
-        if(!dEl || !hEl || !mEl || !sEl || !status) return;
+        // 1. INVITATION COVER OPEN
+        document.getElementById('open-invitation-btn').addEventListener('click', function() {
+            document.getElementById('invitation-cover').classList.add('opened');
+            // Enable scrolling after the cover is gone
+            document.body.style.overflow = 'auto'; 
 
-        function formatNumber(n){
-          return String(n).padStart(2,'0');
-        }
-
-        function tick(){
-          const now = Date.now();
-          const dist = target - now;
-          if(dist <= 0){
-            dEl.textContent = '00';
-            hEl.textContent = '00';
-            mEl.textContent = '00';
-            sEl.textContent = '00';
-            status.textContent = "We're married! 🎉";
-            if(interval) clearInterval(interval);
-            return;
-          }
-          const days = Math.floor(dist/(1000*60*60*24));
-          const hours = Math.floor((dist%(1000*60*60*24))/(1000*60*60));
-          const mins = Math.floor((dist%(1000*60*60))/(1000*60));
-          const secs = Math.floor((dist%(1000*60))/1000);
-          dEl.textContent = formatNumber(days);
-          hEl.textContent = formatNumber(hours);
-          mEl.textContent = formatNumber(mins);
-          sEl.textContent = formatNumber(secs);
-        }
-        let interval = null;
-        tick();
-        interval = setInterval(tick,1000);
-      } catch(e){
-        console.error('Countdown error', e);
-      }
-    })();
-
-    /*********************
-      * nav active state & scroll
-      *********************/
-    (function navWatch(){
-      try {
-        const nav = document.querySelector('.main-nav');
-        const linkNodes = Array.from(document.querySelectorAll('.nav-link'));
-        const pairs = linkNodes.map(l => ({ link: l, section: document.querySelector(l.getAttribute('href')) }))
-                               .filter(p => p.section);
-
-        function onScroll(){
-          const fromTop = window.scrollY + 90;
-          if(window.scrollY > 40) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
-
-          linkNodes.forEach(l => l.classList.remove('active'));
-          
-          for(let i = pairs.length - 1; i >= 0; i--){
-            const sec = pairs[i].section;
-            if (sec && fromTop >= sec.offsetTop) {
-              pairs[i].link.classList.add('active');
-              break;
-            }
-          }
-        }
-        window.addEventListener('scroll', onScroll, {passive:true});
-        onScroll();
-
-        linkNodes.forEach(a => {
-          a.addEventListener('click', (e)=>{
-            const href = a.getAttribute('href');
-            if(href && href.startsWith('#')){
-              e.preventDefault();
-              const el = document.querySelector(href);
-              if(el){
-                const top = el.getBoundingClientRect().top + window.scrollY - 70;
-                window.scrollTo({ top, behavior:'smooth' });
-                history.replaceState(null, '', href);
-                linkNodes.forEach(x=>x.classList.remove('active'));
-                a.classList.add('active');
-              }
-            }
-          });
+            window.location.href = "#home";
+            
+            // Start the music automatically (if you add an <audio> element)
+            // Example: const audio = document.getElementById('wedding-music'); audio.play().catch(e => console.log('Autoplay blocked. User interaction needed.'));
         });
-      } catch(e){
-        console.error('navWatch error', e);
-      }
-    })();
 
-    /*********************
-      * Gallery slider
-      *********************/
-    (function gallery(){
-      try {
-        const slides = document.getElementById('slides');
-        if(!slides) return;
-        const hangs = slides.querySelectorAll('.hang');
-        const prev = document.getElementById('prevBtn');
-        const next = document.getElementById('nextBtn');
-        let index = 0;
+        // Ensure body is non-scrollable initially
+        document.body.style.overflow = 'hidden';
 
-        function computeStride(){
-          if(hangs.length === 0) return 0;
-          const firstRect = hangs[0].getBoundingClientRect();
-          let gap = firstRect.width * 0.06;
-          if(hangs.length > 1){
-            const secondRect = hangs[1].getBoundingClientRect();
-            gap = Math.max(8, secondRect.left - firstRect.right);
-          }
-          return Math.round(firstRect.width + gap);
+
+        // 2. STICKY NAV & ACTIVE LINK SCROLL
+        const nav = document.getElementById('nav');
+        const sections = document.querySelectorAll('section, header.hero'); // Get all sections and the hero
+
+        function updateNavAndScroll() {
+            // Sticky Nav Scroll Effect
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+
+            // Active Nav Link on Scroll
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - nav.offsetHeight - 50; // Offset for nav height
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
         }
 
-        function smartUpdate(){
-          const stride = computeStride() || 0;
-          let visibleCount = 3;
-          
-          if(window.innerWidth < 880) visibleCount = 2; 
-          if(window.innerWidth < 520) visibleCount = 1; 
+        window.addEventListener('scroll', updateNavAndScroll);
+        // Initial call to set correct state
+        updateNavAndScroll();
 
-          const maxIndex = Math.max(0, hangs.length - visibleCount);
-          
-          if(index > maxIndex) index = maxIndex;
-          if(index < 0) index = 0;
-          
-          slides.style.transform = `translateX(-${index * stride}px)`;
-          
-          prev.disabled = (index === 0);
-          next.disabled = (index >= maxIndex);
+
+        //COUNTDOWN TIMER
+        const weddingDate = new Date('November 28, 2025 14:00:00 GMT+0800').getTime(); // Adjusted to 2:00 PM for the Church
+
+        const countdownFunction = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerHTML = days.toString().padStart(2, '0');
+            document.getElementById('hours').innerHTML = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').innerHTML = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').innerHTML = seconds.toString().padStart(2, '0');
+
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById('days').innerHTML = '00';
+                document.getElementById('hours').innerHTML = '00';
+                document.getElementById('minutes').innerHTML = '00';
+                document.getElementById('seconds').innerHTML = '00';
+                document.getElementById('countdownStatus').innerHTML = 'We are officially married! 🎉';
+            }
+        }, 1000);
+
+
+        // 4. PASSBOOK SLIDER FUNCTIONALITY
+        const passbookSlides = document.getElementById('passbookSlides');
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const pageCounter = document.getElementById('pageCounter');
+        const totalPages = passbookSlides.children.length;
+        let currentPage = 0;
+
+        function updatePassbook() {
+            const slideWidth = passbookSlides.children[0].offsetWidth; // Get the width of one page
+            passbookSlides.style.transform = `translateX(-${currentPage * slideWidth}px)`;
+            
+            // Update page counter
+            pageCounter.textContent = `${currentPage + 1} / ${totalPages}`;
+
+            // Update button state
+            prevPageBtn.disabled = (currentPage === 0);
+            nextPageBtn.disabled = (currentPage === totalPages - 1);
+        }
+
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                updatePassbook();
+            }
+        });
+
+        nextPageBtn.addEventListener('click', () => {
+            if (currentPage < totalPages - 1) {
+                currentPage++;
+                updatePassbook();
+            }
+        });
+
+        // Recalculate slide width on window resize
+        window.addEventListener('resize', updatePassbook);
+
+        // Initial update
+        updatePassbook();
+
+
+        // 5. GALLERY SLIDER FUNCTIONALITY
+        const gallerySlides = document.getElementById('gallerySlides');
+        const prevGalleryBtn = document.getElementById('prevGalleryBtn');
+        const nextGalleryBtn = document.getElementById('nextGalleryBtn');
+        const slidesPerView = 2; // Show 2 slides initially (adjust based on design)
+        let currentSlide = 0;
+
+        function updateGallery() {
+            // Calculate the total width of one slide + gap (approximated here)
+            const slideElement = gallerySlides.children[0];
+            if (!slideElement) return;
+
+            const slideWidth = slideElement.offsetWidth;
+            const slideGap = parseFloat(getComputedStyle(gallerySlides).gap); 
+            // The slides CSS uses 6% gap, so we need a better calculation. Let's rely on scroll and translation.
+
+            // Get the total number of items
+            const totalItems = gallerySlides.children.length;
+            
+            // Calculate max slide position
+            // Since all items have the same flex-basis (240px), we can calculate the shift needed.
+            // Move by one item's width plus its gap * 1.06 (because of the 6% gap)
+
+            // Better way: simply calculate the distance needed to shift to the next slide based on its position.
+            if (currentSlide === 0) {
+                gallerySlides.style.transform = `translateX(0)`;
+            } else {
+                // To move to the Nth slide, we need to calculate the distance from the beginning.
+                // For simplicity, we can calculate the total offset needed to bring the target slide to the left edge of the view.
+                const offset = gallerySlides.children[currentSlide].offsetLeft - (gallerySlides.parentElement.offsetWidth / 2); // Center a bit better
+
+                gallerySlides.style.transform = `translateX(-${gallerySlides.children[currentSlide].offsetLeft}px)`;
+            }
+
+            // Update button state (simplistic: disable if we reach a certain point)
+            prevGalleryBtn.disabled = (currentSlide === 0);
+            nextGalleryBtn.disabled = (currentSlide >= totalItems - slidesPerView - 1); // For small screens, this is okay. For large screens, we need a smarter check based on visible items.
+        }
+
+        prevGalleryBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateGallery();
+            }
+        });
+
+        nextGalleryBtn.addEventListener('click', () => {
+            if (currentSlide < gallerySlides.children.length - 1) { // A simpler limit to allow sliding one by one
+                currentSlide++;
+                updateGallery();
+            }
+        });
+
+        // Recalculate on resize and initial load
+        window.addEventListener('resize', updateGallery);
+        window.addEventListener('load', updateGallery);
+
+
+        // 6. PROGRAM LIST HIGHLIGHTING (SCROLL TO TARGET)
+        document.querySelectorAll('.program-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('data-target');
+                const targetElement = document.getElementById(targetId);
+                const timeCards = document.querySelectorAll('.time-card');
+
+                if (targetElement) {
+                    // Remove highlight from all cards
+                    timeCards.forEach(card => card.classList.remove('highlight'));
+                    
+                    // Add highlight to the target card
+                    targetElement.classList.add('highlight');
+                    
+                    // Scroll to the target element (with offset for sticky nav)
+                    const offset = nav.offsetHeight + 20; 
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - offset;
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+
+                    // Remove highlight after a short delay
+                    setTimeout(() => {
+                        targetElement.classList.remove('highlight');
+                    }, 2000);
+                }
+            });
+        });
+
+        // PETAL GENERATION
+        const petalsContainer = document.querySelector('.petals');
+        const numPetals = 30; // Number of petals to generate
+
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            // Randomize starting position (x)
+            petal.style.left = `${Math.random() * 100}vw`; 
+            
+            // Randomize animation duration and delay for subtle variation
+            const duration = 12 + Math.random() * 8; // 12s to 20s
+            const delay = Math.random() * 10; // 0s to 10s
+            const initialRotation = -5 + Math.random() * 10; // -5deg to 5deg
+
+            petal.style.animationDuration = `${duration}s, ${duration/2}s`;
+            petal.style.animationDelay = `${delay}s, ${delay}s`;
+            petal.style.setProperty('--initial-rot', `${initialRotation}deg`); // for the sway animation
+
+            // Randomize size slightly
+            const size = 18 + Math.random() * 10; // 18px to 28px
+            petal.style.width = `${size}px`;
+            petal.style.height = `${size}px`;
+            
+            petalsContainer.appendChild(petal);
+        }
+        // Generate petals only after the cover is opened (or on load if you remove the cover script)
+        function generatePetals() {
+            for (let i = 0; i < numPetals; i++) {
+                createPetal();
+            }
         }
         
-        prev.addEventListener('click', () => { index = Math.max(0, index - 1); smartUpdate(); });
-        next.addEventListener('click', () => { index = Math.min(hangs.length - 1, index + 1); smartUpdate(); });
-        window.addEventListener('resize', smartUpdate);
-        
-        setTimeout(smartUpdate, 100);
-      } catch(e){
-        console.error('Gallery error', e);
-      }
-    })();
+        // This makes sure petals start generating when the cover is opened.
+        document.getElementById('open-invitation-btn').addEventListener('click', generatePetals);
 
-    /*********************
-      * Program list to Timeline Linker
-      *********************/
-    (function programLinker(){
-      try {
-        const listItems = document.querySelectorAll('.program-item');
-        const timeline = document.getElementById('timeline');
-        if(!listItems.length || !timeline) return;
 
-        function highlightCard(id){
-          document.querySelectorAll('.time-card').forEach(card => card.classList.remove('highlight'));
-          const target = document.getElementById(id);
-          if(target) target.classList.add('highlight');
+    </script>
+    
+    
+    <!-- Background Music -->
+        <audio id="bg-music" loop playsinline>
+        <source src="sarilingmundo.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+        </audio>
+
+        <!-- 🎵 Floating Music Icon -->
+        <div id="music-toggle" class="music-btn" title="Toggle music"></div>
+
+        <style>
+        /*Elegant floating button */
+        .music-btn {
+        position: fixed;
+        bottom: 22px;
+        right: 22px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 215, 0, 0.25));
+        box-shadow:
+            0 0 10px rgba(255, 215, 0, 0.5),
+            0 0 25px rgba(255, 255, 255, 0.3),
+            inset 0 0 15px rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.35s ease;
+        z-index: 999;
         }
 
-        listItems.forEach(item => {
-          const targetId = item.getAttribute('data-target');
-          if(!targetId) return;
+        /* Icon (music on by default) */
+        .music-btn::before {
+        content: "🎵";
+        font-size: 1.6rem;
+        color: #fffbea;
+        text-shadow: 0 0 8px rgba(255, 215, 0, 0.8), 0 0 15px rgba(255, 255, 255, 0.3);
+        animation: pulse 2.5s ease-in-out infinite;
+        }
 
-          item.addEventListener('click', () => {
-            const targetElement = document.getElementById(targetId);
-            if(targetElement){
-              highlightCard(targetId);
-              const top = targetElement.getBoundingClientRect().top + window.scrollY - 100; 
-              window.scrollTo({ top, behavior: 'smooth' });
-              setTimeout(() => targetElement.classList.remove('highlight'), 1500);
+        /* When paused */
+        .music-btn.paused::before {
+        content: "🔇";
+        animation: none;
+        }
+
+        /* Hover effect */
+        .music-btn:hover {
+        transform: scale(1.08);
+        box-shadow:
+            0 0 15px rgba(255, 215, 0, 0.6),
+            0 0 35px rgba(255, 255, 255, 0.4),
+            inset 0 0 20px rgba(255, 255, 255, 0.15);
+        }
+
+        /* Floating motion */
+        @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+        }
+        .music-btn {
+        animation: float 4s ease-in-out infinite;
+        }
+
+        /* 🌷 Subtle glowing pulse for music on */
+        @keyframes pulse {
+        0%, 100% {
+            text-shadow: 0 0 6px rgba(255, 215, 0, 0.8),
+                        0 0 14px rgba(255, 255, 255, 0.4);
+        }
+        50% {
+            text-shadow: 0 0 12px rgba(255, 223, 100, 1),
+                        0 0 24px rgba(255, 255, 255, 0.7);
+        }
+        }
+        </style>
+
+        <script>
+        const bgMusic = document.getElementById("bg-music");
+        const musicBtn = document.getElementById("music-toggle");
+
+        // Fade-in effect
+        function fadeInMusic() {
+        let volume = 0;
+        bgMusic.volume = 0;
+        const fade = setInterval(() => {
+            if (volume < 0.35) {
+            volume += 0.02;
+            bgMusic.volume = volume;
+            } else {
+            clearInterval(fade);
             }
-          });
+        }, 200);
+        }
+
+        // Play music on first user interaction (click/tap/scroll)
+        function startMusic() {
+        bgMusic.play().then(() => {
+            fadeInMusic();
+            musicBtn.classList.remove("paused");
+        }).catch(err => console.log("Playback prevented:", err));
+
+        // Remove listeners after start
+        document.removeEventListener("click", startMusic);
+        document.removeEventListener("touchstart", startMusic);
+        document.removeEventListener("scroll", startMusic);
+        }
+
+        // Start after first interaction
+        document.addEventListener("click", startMusic);
+        document.addEventListener("touchstart", startMusic);
+        document.addEventListener("scroll", startMusic);
+
+        // Manual toggle button
+        musicBtn.addEventListener("click", () => {
+        if (bgMusic.paused) {
+            bgMusic.play();
+            fadeInMusic();
+            musicBtn.classList.remove("paused");
+        } else {
+            bgMusic.pause();
+            musicBtn.classList.add("paused");
+        }
         });
-      } catch(e){
-        console.error('Program linker error', e);
-      }
-    })();
+        </script>
 
-    /*********************
-      * RSVP Form Handler (Simulated)
-      *********************/
-    (function rsvpHandler(){
-      try {
-        const form = document.getElementById('rsvpForm');
-        const thanks = document.getElementById('rsvpThanks');
-        if(!form || !thanks) return;
 
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const nameInput = document.getElementById('rsvpName');
-          const attendSelect = document.getElementById('rsvpAttend');
 
-          if(!nameInput.value || !attendSelect.value){
-            alert('Please fill out your name and attendance status.');
-            return;
-          }
-
-          const name = nameInput.value.trim();
-          const attending = attendSelect.value === 'yes';
-
-          form.style.display = 'none';
-          thanks.style.display = 'block';
-
-          if(attending){
-            thanks.innerHTML = `Thank you, **${name}**! We are thrilled you can make it!`;
-          } else {
-            thanks.innerHTML = `Thank you, **${name}**. We will miss you! We appreciate you letting us know.`;
-          }
-
-          console.log('RSVP Submitted:', {
-            name: name,
-            attending: attending ? 'Yes' : 'No',
-            message: document.getElementById('rsvpMsg').value
-          });
-        });
-      } catch(e){
-        console.error('RSVP handler error', e);
-      }
-    })();
-  </script>
 </body>
 </html>
